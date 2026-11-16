@@ -1386,7 +1386,7 @@
               <div class="hp-tick" style="left: 33.3%;"></div>
             </div>
             <div class="player-telemetry">
-              <span id="hudLife" style="color: #fb7185;">잔기 30</span>
+              <span id="hudLife" style="color: #fb7185;">잔기 10</span>
               <span id="hudPhase" style="color: var(--accent);">PHASE 1 / 3</span>
               <span id="hudGraze" style="color: var(--ivory);">GRAZE 0</span>
             </div>
@@ -1408,7 +1408,7 @@
                 신민찬 3단 각성 탄막 토벌전
               </h2>
               <p id="overlayDesc" style="font-size:12px; color:var(--text-sub); margin-top:8px; line-height:1.55;">
-                플레이어 잔기 <strong>30</strong> 부여 · 보스 체력 <strong>12,000</strong> · <strong>3페이즈</strong> 진화전.<br>
+                플레이어 잔기 <strong>10</strong> 부여 · 보스 체력 <strong>12,000</strong> · <strong>3페이즈</strong> 진화전.<br>
                 페이즈가 넘어갈 때마다 보스가 <strong>가오 → 코털 → 중2병</strong>으로 외형을 바꿉니다.<br>
                 양쪽 하단의 <strong>BOMB L / R</strong> 버튼으로 위기 시 탄막을 일소하세요.
               </p>
@@ -1730,13 +1730,12 @@
     }
 
     /* =========================================
-       4. 3페이즈 외형 진화 탄막 보스 파이트 (잔기 30)
+       4. 3페이즈 외형 진화 탄막 보스 파이트 (잔기 10)
        ========================================= */
     const canvas = document.getElementById('danmakuCanvas');
     const ctx = canvas.getContext('2d');
     const arenaBox = document.getElementById('arenaBox');
 
-    // 페이즈별 보스 외형 이미지 프리로드 (1: 가오민찬, 2: 코털민찬, 3: 중2병민찬)
     const phaseSprites = {
       1: { img: new Image(), ready: false, label: '가오민찬', ringColor: '#eab308', auraColor: 'rgba(234, 179, 8, 0.28)' },
       2: { img: new Image(), ready: false, label: '코털민찬', ringColor: '#e11d48', auraColor: 'rgba(225, 29, 72, 0.36)' },
@@ -1761,7 +1760,6 @@
     }
     window.addEventListener('resize', fitArenaCanvas);
 
-    // 2페이즈 돌입 시 단 1회 선택 가능한 각성 축복
     const BLESSINGS = [
       {
         code: 'AWAKENING // 9x9 OVERDRIVE',
@@ -1811,7 +1809,7 @@
         hitR: 3.2,
         grazeR: 21,
         invuln: 0,
-        life: 30,      // 플레이어 체력(잔기) 30
+        life: 10,      // 플레이어 체력(잔기) 10
         dmg: 20,
         fireRate: 6,
         streams: 2,
@@ -1969,7 +1967,6 @@
 
       const hpPct = boss.hp / boss.maxHp;
 
-      // 66.6% 체력에서 2페이즈 진화 (가오민찬 -> 코털민찬)
       if (hpPct <= 0.666 && boss.phase === 1) {
         boss.phase = 2;
         boss.patternTick = 0;
@@ -1991,7 +1988,6 @@
         }
       }
 
-      // 33.3% 체력에서 3페이즈 최종 진화 (코털민찬 -> 중2병민찬)
       if (hpPct <= 0.333 && boss.phase === 2) {
         boss.phase = 3;
         boss.patternTick = 0;
@@ -2038,22 +2034,20 @@
       if (win) {
         title.textContent = '신민찬 3단 진화 스펠 완전 격파';
         title.style.color = '#f4f4f6';
-        desc.innerHTML = `가오·코털·중2병의 3단 탄막 지옥을 돌파했습니다.<br>잔여 잔기: <strong>${pState.life} / 30</strong> · 총 그레이즈: <strong>${grazeCount}회</strong>`;
+        desc.innerHTML = `가오·코털·중2병의 3단 탄막 지옥을 돌파했습니다.<br>잔여 잔기: <strong>${pState.life} / 10</strong> · 총 그레이즈: <strong>${grazeCount}회</strong>`;
       } else {
-        title.textContent = '잔기 30 전멸 — 토벌 실패';
+        title.textContent = '잔기 10 전멸 — 토벌 실패';
         title.style.color = '#fb7185';
         desc.innerHTML = `도달 단계: <strong>PHASE ${boss.phase} (${phaseSprites[boss.phase].label})</strong> · 남은 체력: <strong>${Math.ceil(boss.hp)}</strong><br>양쪽 BOMB L / R 버튼을 번갈아 사용해 탄막을 지우세요.`;
       }
       ov.classList.remove('hidden');
     }
 
-    /* 3페이즈 단계별 고밀도 탄막 생성기 */
     function emitThreePhaseDanmaku() {
       boss.patternTick++;
       const t = boss.patternTick;
 
       if (boss.phase === 1) {
-        // [PHASE 1: 가오민찬] 7갈래 역회전 이중 나선 + 조준 9방향 침탄
         if (t % 3 === 0) {
           boss.spiralA += 0.22;
           boss.spiralB -= 0.20;
@@ -2085,7 +2079,6 @@
           }
         }
       } else if (boss.phase === 2) {
-        // [PHASE 2: 코털민찬] 8갈래 휘어지는 코털 나선 + 32방위 교차 링 + 저격 레이저
         if (t % 3 === 0) {
           boss.spiralA += 0.25;
           boss.spiralB -= 0.23;
@@ -2123,7 +2116,6 @@
           lasers.push({ x: pState.x, warn: 44, active: 15, w: 18 });
         }
       } else {
-        // [PHASE 3: 중2병민찬] 10갈래 초고속 흑염룡 나선 + 38방위 전방위 폭발 + 11연발 조준탄 + 쌍둥이 레이저
         if (t % 2 === 0) {
           boss.spiralA += 0.29;
           const arms = 10;
@@ -2199,14 +2191,12 @@
         ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
       }
 
-      // 페이즈별 다중 회전 마법진 연출 (진화할수록 겹 수와 크기 증가)
       const curSprite = phaseSprites[boss.phase];
       ctx.save();
       ctx.translate(boss.x, boss.y);
       ctx.strokeStyle = curSprite.auraColor;
       ctx.lineWidth = 1.4;
 
-      // 1층 마법진
       ctx.save();
       ctx.rotate(tick * (0.015 * boss.phase));
       const box1 = 42 + boss.phase * 4;
@@ -2215,7 +2205,6 @@
       ctx.strokeRect(-box1, -box1, box1 * 2, box1 * 2);
       ctx.restore();
 
-      // 2페이즈 이상 추가 외곽 마법진
       if (boss.phase >= 2) {
         ctx.save();
         ctx.rotate(-tick * 0.022);
@@ -2228,7 +2217,6 @@
       }
       ctx.restore();
 
-      // 진화 충격파 링
       if (boss.evoPulse > 0) {
         const prog = 1 - boss.evoPulse / 45;
         ctx.strokeStyle = curSprite.ringColor;
@@ -2238,7 +2226,6 @@
         ctx.stroke();
       }
 
-      // 보스 기동
       const moveSpeed = 0.019 + boss.phase * 0.007;
       const moveRange = 0.21 + boss.phase * 0.04;
       boss.x = boss.baseX + Math.sin(tick * moveSpeed) * (W * moveRange);
@@ -2246,7 +2233,6 @@
 
       emitThreePhaseDanmaku();
 
-      // 플레이어 샷 발사
       if (tick % pState.fireRate === 0) {
         const s = pState.streams;
         for (let i = 0; i < s; i++) {
@@ -2266,7 +2252,6 @@
         }
       }
 
-      // 궤도 결계 업데이트
       for (let o = 0; o < pState.orbitCount; o++) {
         const ang = tick * 0.09 + (Math.PI * 2 / pState.orbitCount) * o;
         const ox = pState.x + Math.cos(ang) * 32;
@@ -2288,7 +2273,6 @@
         }
       }
 
-      // 플레이어 탄환 업데이트
       for (let i = myShots.length - 1; i >= 0; i--) {
         const sh = myShots[i];
         if (sh.homing) {
@@ -2317,7 +2301,6 @@
         }
       }
 
-      // 레이저 처리
       for (let i = lasers.length - 1; i >= 0; i--) {
         const lz = lasers[i];
         if (lz.warn > 0) {
@@ -2342,7 +2325,6 @@
         }
       }
 
-      // 적 탄막 업데이트
       for (let i = enemyDanmaku.length - 1; i >= 0; i--) {
         const b = enemyDanmaku[i];
         if (b.curve) {
@@ -2369,7 +2351,6 @@
         if (!b.grazed && dist < b.r + pState.grazeR && dist >= b.r + pState.hitR) {
           b.grazed = true;
           grazeCount++;
-          // 그레이즈 시 양쪽 폭탄 쿨타임 동시 단축
           if (pState.bombCdLeft > 0) pState.bombCdLeft = Math.max(0, pState.bombCdLeft - 6);
           if (pState.bombCdRight > 0) pState.bombCdRight = Math.max(0, pState.bombCdRight - 6);
           spawnSparks(pState.x, pState.y, '#ffffff', 1);
@@ -2387,7 +2368,6 @@
         }
       }
 
-      // 페이즈별 보스 외형 렌더링 (1: 가오민찬 -> 2: 코털민찬 -> 3: 중2병민찬)
       ctx.save();
       ctx.translate(boss.x, boss.y);
       ctx.shadowColor = curSprite.ringColor;
@@ -2416,21 +2396,18 @@
       }
       ctx.restore();
 
-      // 보스 외곽 오라 링
       ctx.strokeStyle = curSprite.ringColor;
       ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.arc(boss.x, boss.y, boss.r, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 화면 전체 피격/진화 플래시
       if (flashScreen > 0) {
         flashScreen--;
         ctx.fillStyle = `rgba(255, 255, 255, ${flashScreen * 0.025})`;
         ctx.fillRect(0, 0, W, H);
       }
 
-      // 플레이어 렌더링
       if (pState.invuln === 0 || tick % 4 < 2) {
         ctx.strokeStyle = 'rgba(244, 244, 246, 0.45)';
         ctx.lineWidth = 1.2;
@@ -2481,7 +2458,6 @@
       requestAnimationFrame(danmakuLoop);
     }
 
-    // 터치 & 마우스 조작
     let dragging = false;
     let prevX = 0;
     let prevY = 0;
