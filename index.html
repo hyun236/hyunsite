@@ -42,7 +42,6 @@
       padding-bottom: 90px;
     }
 
-    /* 상단 고정 편집 툴바 */
     .editor-bar {
       position: sticky;
       top: 0;
@@ -135,7 +134,6 @@
       display: block;
     }
 
-    /* 레이아웃 컨테이너 */
     .container {
       max-width: 780px;
       margin: 0 auto;
@@ -181,7 +179,6 @@
       letter-spacing: 0.4px;
     }
 
-    /* 이미지 슬롯 공통 */
     .img-slot {
       position: relative;
       width: 100%;
@@ -233,7 +230,6 @@
       background: var(--pink);
     }
 
-    /* 1. 히어로 프로필 */
     .hero-banner {
       background: linear-gradient(145deg, #1a1f38 0%, #101424 100%);
       border: 1px solid rgba(255, 92, 168, 0.4);
@@ -299,7 +295,6 @@
       word-break: keep-all;
     }
 
-    /* 2. 신민찬 7단 변신 도감 (핵심 갤러리!) */
     .forms-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -319,7 +314,6 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.15s ease;
     }
 
     .form-card.featured {
@@ -393,7 +387,6 @@
       border-radius: 999px;
     }
 
-    /* 3. 가상 여친들 */
     .gf-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -459,7 +452,6 @@
       color: #cbd5e1;
     }
 
-    /* 4. 호불호 비주얼 그리드 */
     .visual-3grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -517,7 +509,6 @@
       border-radius: 999px;
     }
 
-    /* 5. 목표: 라니밴드 */
     .dream-box {
       background: linear-gradient(135deg, #251540 0%, #131d38 100%);
       border: 1px solid rgba(168, 85, 247, 0.45);
@@ -551,7 +542,6 @@
       color: #000;
     }
 
-    /* 6. 미니게임 */
     .game-section {
       border: 2px solid var(--yellow);
       background: linear-gradient(180deg, #171c30 0%, #0d101d 100%);
@@ -644,7 +634,6 @@
       color: #000;
     }
 
-    /* 7. 제작자 소개 (이현승) */
     .creator-card {
       display: grid;
       grid-template-columns: 185px 1fr;
@@ -662,7 +651,6 @@
       height: 250px;
     }
 
-    /* 토스트 */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -691,7 +679,6 @@
 </head>
 <body>
 
-  <!-- 상단 고정 편집 바 -->
   <div class="editor-bar">
     <div class="brand-tag">🎸 SHIN MIN-CHAN 7-FORMS</div>
     <div class="editor-actions">
@@ -708,7 +695,7 @@
 
   <div class="container">
 
-    <!-- 1. 메인 프로필 히어로 (가오민찬 대표) -->
+    <!-- 1. 메인 프로필 히어로 -->
     <section class="section-card hero-banner">
       <div class="section-header">
         <span class="badge" style="background: rgba(255,92,168,0.2); color: var(--pink);">MAIN PROFILE · 01 가오민찬</span>
@@ -723,9 +710,9 @@
           <path d="M252 115 Q300 65 348 115 Q335 80 300 78 Q265 80 252 115 Z" fill="#1e293b"/>
           <ellipse cx="300" cy="144" rx="14" ry="8" fill="#fb7185"/>
           <text x="300" y="235" text-anchor="middle" fill="#facc15" font-size="24" font-weight="900">01. 가오민찬 (1.jpg)</text>
-          <text x="300" y="268" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="700">터치해서 첫 번째 사진(가오민찬) 넣기</text>
+          <text x="300" y="268" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="700">터치해서 사진 넣기 또는 깃허브에 1.jpg 업로드</text>
         </svg>
-        <div class="img-upload-badge">📸 가오민찬 사진</div>
+        <div class="img-upload-badge">📸 1.jpg</div>
       </div>
 
       <div class="hero-name-row">
@@ -754,15 +741,12 @@
       </div>
     </section>
 
-    <!-- 2. 신민찬 7단 변신 멀티버스 갤러리 -->
+    <!-- 2. 신민찬 7단 변신 도감 -->
     <section class="section-card">
       <div class="section-header">
         <h2 class="section-title">🔥 신민찬 7단 변신 도감</h2>
         <span class="badge" style="background: rgba(250,204,21,0.2); color: var(--yellow);">7 FORMS ARCHIVE</span>
       </div>
-      <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">
-        상황에 따라 자유자재로 얼굴을 갈아끼우는 호평동 카멜레온. 각 카드를 터치하면 사진을 바로 넣을 수 있습니다.
-      </p>
 
       <div class="forms-grid">
         <!-- 1. 가오민찬 -->
@@ -772,10 +756,10 @@
             <svg class="fallback-svg" viewBox="0 0 500 280" preserveAspectRatio="xMidYMid slice">
               <rect width="500" height="280" fill="#1f1a2e"/>
               <text x="250" y="130" text-anchor="middle" font-size="60">😗💨</text>
-              <text x="250" y="185" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.1 가오민찬</text>
-              <text x="250" y="215" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 가오민찬 사진 업로드</text>
+              <text x="250" y="185" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.1 가오민찬 (1.jpg)</text>
+              <text x="250" y="215" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 1.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 1.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -800,10 +784,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#2b1419"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">👃🌿</text>
-              <text x="200" y="180" text-anchor="middle" fill="#ff8080" font-size="22" font-weight="900">No.2 코털민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 코털민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#ff8080" font-size="22" font-weight="900">No.2 코털민찬 (2.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 2.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 2.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -828,10 +812,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#172033"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">😴🖍️</text>
-              <text x="200" y="180" text-anchor="middle" fill="#38bdf8" font-size="22" font-weight="900">No.3 낙서민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 낙서민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#38bdf8" font-size="22" font-weight="900">No.3 낙서민찬 (3.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 3.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 3.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -856,10 +840,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#231638"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">😷🖤</text>
-              <text x="200" y="180" text-anchor="middle" fill="#c084fc" font-size="22" font-weight="900">No.4 중2병민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 중2병민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#c084fc" font-size="22" font-weight="900">No.4 중2병민찬 (4.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 4.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 4.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -884,10 +868,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#1e2436"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">🎭✨</text>
-              <text x="200" y="180" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.5 차은우민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 차은우민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.5 차은우민찬 (5.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 5.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 5.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -912,10 +896,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#142b24"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">📱✨</text>
-              <text x="200" y="180" text-anchor="middle" fill="#4ade80" font-size="22" font-weight="900">No.6 훈남민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 훈남민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#4ade80" font-size="22" font-weight="900">No.6 훈남민찬 (6.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 6.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 6.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -940,10 +924,10 @@
             <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
               <rect width="400" height="280" fill="#2e2114"/>
               <text x="200" y="125" text-anchor="middle" font-size="60">🦫🦷</text>
-              <text x="200" y="180" text-anchor="middle" fill="#fb923c" font-size="22" font-weight="900">No.7 비버민찬</text>
-              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 비버민찬 사진 업로드</text>
+              <text x="200" y="180" text-anchor="middle" fill="#fb923c" font-size="22" font-weight="900">No.7 비버민찬 (7.jpg)</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 사진 넣기 또는 7.jpg 업로드</text>
             </svg>
-            <div class="img-upload-badge">📸 사진 넣기</div>
+            <div class="img-upload-badge">📸 7.jpg</div>
           </div>
           <div class="form-body">
             <div class="form-top">
@@ -963,7 +947,7 @@
       </div>
     </section>
 
-    <!-- 3. 그의 가상 여친들 -->
+    <!-- 3. 그의 가상 여친들 (bocchi.jpg / suna.jpg 연결!) -->
     <section class="section-card">
       <div class="section-header">
         <h2 class="section-title">💖 그의 가상 여친들</h2>
@@ -973,8 +957,8 @@
       <div class="gf-grid">
         <!-- 여친 1: 봇치 -->
         <div class="gf-card">
-          <div class="img-slot gf-img-wrap is-fallback" data-img-id="gf-bocchi" onclick="triggerImageUpload('gf-bocchi')">
-            <img src="" alt="봇치" />
+          <div class="img-slot gf-img-wrap" data-img-id="gf-bocchi" onclick="triggerImageUpload('gf-bocchi')">
+            <img src="bocchi.jpg" alt="봇치" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <linearGradient id="bocchiBg" x1="0" y1="0" x2="1" y2="1">
@@ -995,7 +979,7 @@
               <line x1="200" y1="208" x2="200" y2="280" stroke="#fff" stroke-width="3"/>
               <text x="200" y="34" text-anchor="middle" fill="#fff" font-weight="900" font-size="16">BOCCHI THE ROCK!</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 짤 변경</div>
+            <div class="img-upload-badge">🖼️ bocchi.jpg</div>
           </div>
           <div class="gf-info">
             <div class="gf-title-row">
@@ -1008,10 +992,10 @@
           </div>
         </div>
 
-        <!-- 여친 2: 수나 (젠존제) -->
+        <!-- 여친 2: 수나 -->
         <div class="gf-card suna">
-          <div class="img-slot gf-img-wrap is-fallback" data-img-id="gf-suna" onclick="triggerImageUpload('gf-suna')">
-            <img src="" alt="수나" />
+          <div class="img-slot gf-img-wrap" data-img-id="gf-suna" onclick="triggerImageUpload('gf-suna')">
+            <img src="suna.jpg" alt="수나" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <linearGradient id="sunaBg" x1="0" y1="0" x2="1" y2="1">
@@ -1036,7 +1020,7 @@
               <polygon points="200,208 188,225 212,225" fill="#38bdf8"/>
               <text x="200" y="34" text-anchor="middle" fill="#7dd3fc" font-weight="900" font-size="16">ZENLESS ZONE ZERO · SUNA</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 짤 변경</div>
+            <div class="img-upload-badge">🖼️ suna.jpg</div>
           </div>
           <div class="gf-info">
             <div class="gf-title-row">
@@ -1051,7 +1035,7 @@
       </div>
     </section>
 
-    <!-- 4. 좋아하는 것 (LIKE) -->
+    <!-- 4. 좋아하는 것 (like1.jpg ~ like3.jpg 연결!) -->
     <section class="section-card">
       <div class="section-header">
         <h2 class="section-title">😍 좋아하는 것 (LIKE)</h2>
@@ -1060,14 +1044,14 @@
 
       <div class="visual-3grid">
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="like-pixiv" onclick="triggerImageUpload('like-pixiv')">
-            <img src="" alt="픽시브" />
+          <div class="img-slot v-card-img" data-img-id="like-pixiv" onclick="triggerImageUpload('like-pixiv')">
+            <img src="like1.jpg" alt="픽시브" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#0096fa"/>
               <circle cx="150" cy="90" r="52" fill="#ffffff"/>
               <text x="150" y="108" text-anchor="middle" fill="#0096fa" font-size="64" font-weight="900" font-family="sans-serif">P</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ like1.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="like1-title">1. 픽시브 (Pixiv)</div>
@@ -1076,13 +1060,13 @@
         </div>
 
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="like-girls" onclick="triggerImageUpload('like-girls')">
-            <img src="" alt="여자" />
+          <div class="img-slot v-card-img" data-img-id="like-girls" onclick="triggerImageUpload('like-girls')">
+            <img src="like2.jpg" alt="여자" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#be185d"/>
               <text x="150" y="102" text-anchor="middle" font-size="68">💃💖</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ like2.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="like2-title">2. 여자</div>
@@ -1091,13 +1075,13 @@
         </div>
 
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="like-game" onclick="triggerImageUpload('like-game')">
-            <img src="" alt="게임" />
+          <div class="img-slot v-card-img" data-img-id="like-game" onclick="triggerImageUpload('like-game')">
+            <img src="like3.jpg" alt="게임" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#4338ca"/>
               <text x="150" y="102" text-anchor="middle" font-size="68">🎮🔥</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ like3.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="like3-title">3. 게임</div>
@@ -1107,7 +1091,7 @@
       </div>
     </section>
 
-    <!-- 5. 싫어하는 것 (HATE) -->
+    <!-- 5. 싫어하는 것 (hate1.jpg ~ hate3.jpg 연결!) -->
     <section class="section-card" style="border-color: rgba(255,77,77,0.38);">
       <div class="section-header">
         <h2 class="section-title">🤬 극혐 리스트 (HATE)</h2>
@@ -1116,14 +1100,14 @@
 
       <div class="visual-3grid">
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="hate-friends" onclick="triggerImageUpload('hate-friends')">
-            <img src="" alt="천적들" />
+          <div class="img-slot v-card-img" data-img-id="hate-friends" onclick="triggerImageUpload('hate-friends')">
+            <img src="hate1.jpg" alt="천적들" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#450a0a"/>
               <text x="150" y="95" text-anchor="middle" font-size="56">🚫👥🚫</text>
               <text x="150" y="138" text-anchor="middle" fill="#fca5a5" font-size="15" font-weight="900">주재윤 · 김준령 · 이현승</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ hate1.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="hate1-title">요주의 인물 3인방</div>
@@ -1137,14 +1121,14 @@
         </div>
 
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="hate-math" onclick="triggerImageUpload('hate-math')">
-            <img src="" alt="구구단" />
+          <div class="img-slot v-card-img" data-img-id="hate-math" onclick="triggerImageUpload('hate-math')">
+            <img src="hate2.jpg" alt="구구단" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#7f1d1d"/>
               <text x="150" y="88" text-anchor="middle" fill="#fef08a" font-size="38" font-weight="900">7 × 8 = ??</text>
               <text x="150" y="132" text-anchor="middle" fill="#fecaca" font-size="16" font-weight="800">구구단 공포증</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ hate2.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="hate2-title">구구단</div>
@@ -1153,13 +1137,13 @@
         </div>
 
         <div class="v-card">
-          <div class="img-slot v-card-img is-fallback" data-img-id="hate-veggie" onclick="triggerImageUpload('hate-veggie')">
-            <img src="" alt="야채" />
+          <div class="img-slot v-card-img" data-img-id="hate-veggie" onclick="triggerImageUpload('hate-veggie')">
+            <img src="hate3.jpg" alt="야채" onerror="this.parentElement.classList.add('is-fallback')" />
             <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
               <rect width="300" height="180" fill="#14532d"/>
               <text x="150" y="98" text-anchor="middle" font-size="66">🥦🥕❌</text>
             </svg>
-            <div class="img-upload-badge">🖼️ 변경</div>
+            <div class="img-upload-badge">🖼️ hate3.jpg</div>
           </div>
           <div class="v-card-body">
             <div class="v-card-title" data-editable="hate3-title">야채</div>
@@ -1169,15 +1153,15 @@
       </div>
     </section>
 
-    <!-- 6. 최종 목표: 라니밴드 기타리스트 -->
+    <!-- 6. 최종 목표: 라니밴드 기타리스트 (band.jpg 연결!) -->
     <section class="section-card dream-box">
       <div class="section-header">
         <h2 class="section-title">🎸 인생 최종 목표</h2>
         <span class="badge" style="background: rgba(168,85,247,0.25); color: #d8b4fe;">DREAM STAGE</span>
       </div>
 
-      <div class="img-slot dream-img is-fallback" data-img-id="dream-band" onclick="triggerImageUpload('dream-band')">
-        <img src="" alt="라니밴드" />
+      <div class="img-slot dream-img" data-img-id="dream-band" onclick="triggerImageUpload('dream-band')">
+        <img src="band.jpg" alt="라니밴드" onerror="this.parentElement.classList.add('is-fallback')" />
         <svg class="fallback-svg" viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="stageGrad" x1="0" y1="0" x2="1" y2="1">
@@ -1193,7 +1177,7 @@
           <text x="300" y="135" text-anchor="middle" fill="#facc15" font-size="18" font-weight="800">LEAD GUITARIST : SHIN MIN-CHAN</text>
           <text x="300" y="185" text-anchor="middle" font-size="44">🎸🔥🤘</text>
         </svg>
-        <div class="img-upload-badge">🖼️ 무대 사진 변경</div>
+        <div class="img-upload-badge">🖼️ band.jpg</div>
       </div>
 
       <h3 style="font-size: 19px; font-weight: 900; margin-bottom: 6px;" data-editable="goal-title">
@@ -1246,7 +1230,7 @@
       </div>
     </section>
 
-    <!-- 8. 제작자 소개 (이현승 - 마지막 사진 적용 슬롯) -->
+    <!-- 8. 제작자 소개 (creator.jpg 연결!) -->
     <section class="section-card">
       <div class="section-header">
         <h2 class="section-title">🎬 제작자 소개</h2>
@@ -1256,7 +1240,6 @@
       <div class="creator-card">
         <div class="img-slot creator-img" data-img-id="creator-photo" onclick="triggerImageUpload('creator-photo')">
           <img src="creator.jpg" alt="제작자 이현승" onerror="this.parentElement.classList.add('is-fallback')" />
-          <!-- 마지막 사진(마녀 모자 + 화이트 SG 일렉기타) 전용 벡터 일러스트 -->
           <svg class="fallback-svg" viewBox="0 0 260 340" preserveAspectRatio="xMidYMid slice">
             <defs>
               <linearGradient id="witchBg" x1="0" y1="0" x2="0" y2="1">
@@ -1265,24 +1248,19 @@
               </linearGradient>
             </defs>
             <rect width="260" height="340" fill="url(#witchBg)"/>
-            <!-- 마녀 모자 -->
             <ellipse cx="130" cy="105" rx="92" ry="20" fill="#524863"/>
             <path d="M75 105 L118 22 L162 42 L175 105 Z" fill="#635775"/>
-            <!-- 보라색 단발 헤어 & 얼굴 -->
             <circle cx="130" cy="135" r="34" fill="#ffe4e6"/>
             <path d="M94 125 Q130 92 166 125 L168 165 L92 165 Z" fill="#7c7399"/>
             <circle cx="118" cy="136" r="5" fill="#92400e"/>
             <circle cx="142" cy="136" r="5" fill="#92400e"/>
-            <!-- 망토 -->
             <path d="M78 265 L95 168 L165 168 L182 265 Z" fill="#4c4359"/>
-            <!-- 화이트 SG 일렉기타 -->
             <path d="M95 255 L195 135" stroke="#d6d3d1" stroke-width="9" stroke-linecap="round"/>
             <ellipse cx="112" cy="238" rx="32" ry="24" transform="rotate(-35 112 238)" fill="#f8fafc" stroke="#1e293b" stroke-width="3"/>
             <ellipse cx="115" cy="235" rx="16" ry="12" transform="rotate(-35 115 235)" fill="#18181b"/>
-            <text x="130" y="305" text-anchor="middle" fill="#facc15" font-size="13" font-weight="900">터치해서 마지막 사진 넣기</text>
-            <text x="130" y="324" text-anchor="middle" fill="#cbd5e1" font-size="11">(creator.jpg)</text>
+            <text x="130" y="305" text-anchor="middle" fill="#facc15" font-size="13" font-weight="900">터치해서 넣기 또는 creator.jpg</text>
           </svg>
-          <div class="img-upload-badge">📸 내 사진 넣기</div>
+          <div class="img-upload-badge">📸 creator.jpg</div>
         </div>
 
         <div>
@@ -1308,12 +1286,9 @@
   <div class="toast" id="toastMsg">저장 완료!</div>
 
   <script>
-    /* =========================================
-       1. 실시간 텍스트 및 이미지 편집 & 저장 기능
-       ========================================= */
     let isEditing = false;
     let currentTargetImgId = null;
-    const STORAGE_KEY = 'minchan_wiki_7forms_v2';
+    const STORAGE_KEY = 'minchan_wiki_7forms_v3';
 
     function showToast(msg) {
       const t = document.getElementById('toastMsg');
@@ -1354,7 +1329,6 @@
       reader.onload = function(event) {
         const img = new Image();
         img.onload = function() {
-          // 8장 이상 들어가도 브라우저 저장공간에 넉넉히 들어가도록 자동 리사이즈
           const canvas = document.createElement('canvas');
           const MAX_SIZE = 480;
           let w = img.width;
@@ -1373,7 +1347,6 @@
           const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.74);
 
           applyImageToSlot(currentTargetImgId, compressedDataUrl);
-          // 가오민찬 대표 사진 넣으면 상단 히어로와 1번 카드 둘 다 동기화!
           if (currentTargetImgId === 'form-1') {
             applyImageToSlot('form-1-card', compressedDataUrl);
           } else if (currentTargetImgId === 'form-1-card') {
@@ -1459,9 +1432,7 @@
 
     loadState();
 
-    /* =========================================
-       2. 미니게임: 신민찬 7단 변신 추격전!
-       ========================================= */
+    /* 미니게임: 신민찬 7단 변신 추격전 */
     const canvas = document.getElementById('chaseGame');
     const ctx = canvas.getContext('2d');
     const scoreEl = document.getElementById('scoreDisplay');
@@ -1469,7 +1440,7 @@
     const statusEl = document.getElementById('statusText');
     const overlay = document.getElementById('gameOverlay');
 
-    let bestScore = Number(localStorage.getItem('minchan_game_best_v2') || 0);
+    let bestScore = Number(localStorage.getItem('minchan_game_best_v3') || 0);
     bestEl.textContent = bestScore;
 
     let gameRunning = false;
@@ -1638,7 +1609,7 @@
       gameRunning = false;
       if (score > bestScore) {
         bestScore = score;
-        localStorage.setItem('minchan_game_best_v2', bestScore);
+        localStorage.setItem('minchan_game_best_v3', bestScore);
         bestEl.textContent = bestScore;
       }
       statusEl.textContent = '잡혔다!!';
