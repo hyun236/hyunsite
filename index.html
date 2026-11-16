@@ -649,4 +649,1349 @@
       position: absolute;
       bottom: 12px;
       right: 12px;
-      z-index: 
+      z-index: 6;
+      background: rgba(18, 18, 22, 0.88);
+      border: 1px solid var(--line-strong);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .spell-bomb-btn:not(:disabled) {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .spell-bomb-btn:disabled {
+      opacity: 0.4;
+    }
+
+    .arena-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      background: rgba(8, 8, 10, 0.92);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .arena-overlay.hidden {
+      display: none;
+    }
+
+    .primary-action-btn {
+      margin-top: 16px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 800;
+      padding: 11px 26px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .primary-action-btn:active {
+      opacity: 0.85;
+    }
+
+    /* 축복 3택 1 모달 */
+    .blessing-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      background: rgba(8, 8, 10, 0.95);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .blessing-overlay.hidden {
+      display: none;
+    }
+
+    .blessing-item {
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: 5px;
+      padding: 12px 14px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .blessing-item:active {
+      border-color: var(--accent);
+      background: var(--surface-hover);
+    }
+
+    .blessing-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .blessing-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .blessing-desc {
+      font-size: 11.5px;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    /* ============================
+       PANEL 5: CREATOR
+       ============================ */
+    .creator-frame {
+      flex: 1;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .creator-photo {
+      flex: 1;
+      min-height: 240px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .creator-colophon {
+      padding: 18px;
+    }
+
+    /* 하단 탭바 (클린 라인 아이콘) */
+    .tabbar {
+      flex-shrink: 0;
+      height: 58px;
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.15s;
+    }
+
+    .tab-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tab-btn span {
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .tab-btn.is-active {
+      color: var(--text);
+    }
+
+    .tab-btn.is-active::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 24%;
+      right: 24%;
+      height: 2px;
+      background: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="frame-container">
+    <!-- 상단 헤더 -->
+    <header class="masthead">
+      <div class="masthead-title">
+        <span class="masthead-mark"></span>
+        <span>신민찬 인물 아카이브</span>
+      </div>
+      <div class="masthead-meta" id="headerCode">INDEX 01</div>
+    </header>
+
+    <!-- 메인 스테이지 -->
+    <main class="stage">
+
+      <!-- 01. 프로필 -->
+      <section class="panel active" id="panel-profile">
+        <div class="cover-card">
+          <div class="photo-box">
+            <img src="1.jpg" alt="신민찬" onerror="this.parentElement.classList.add('is-missing')" />
+            <div class="photo-fallback">
+              <span class="fb-label">가오민찬 대표 사진</span>
+              <span class="fb-file">1.jpg</span>
+            </div>
+          </div>
+          <div class="cover-scrim">
+            <div class="cover-eyebrow">ARCHIVE SUBJECT // MAN · 18</div>
+            <div class="cover-heading">
+              <h1 class="cover-name">신민찬</h1>
+              <span class="cover-phys">172cm / 75kg</span>
+            </div>
+            <p class="cover-quote">라니밴드 예비 기타리스트. 단, 구구단과 야채는 사절.</p>
+          </div>
+        </div>
+
+        <div class="spec-table">
+          <div class="spec-row">
+            <div class="spec-key">인적사항</div>
+            <div class="spec-val">만 18세 · 남성</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">학력사항</div>
+            <div class="spec-val">판곡중학교 졸업 / 청학고등학교 재학</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">거주지</div>
+            <div class="spec-val">경기도 남양주시 늘을 1로 197-5 5동 202호 (호평동)</div>
+          </div>
+          <div class="spec-row">
+            <div class="spec-key">천적명단</div>
+            <div class="spec-val" style="color: #fb7185;">주재윤, 김준령, 이현승</div>
+          </div>
+        </div>
+
+        <div class="segment-bar">
+          <button class="segment-btn is-active" id="segLike" onclick="togglePrefTab('like')">선호 항목 (LIKE)</button>
+          <button class="segment-btn" id="segHate" onclick="togglePrefTab('hate')">기피 항목 (HATE)</button>
+        </div>
+
+        <div class="trio-grid" id="gridLike">
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="like1.jpg" alt="픽시브" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">like1.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title">픽시브</div>
+              <div class="trio-desc">매일 밤 일러스트 순례 성지</div>
+            </div>
+          </div>
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="like2.jpg" alt="여자" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">like2.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title">여자</div>
+              <div class="trio-desc">2D와 3D를 가리지 않는 호감</div>
+            </div>
+          </div>
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="like3.jpg" alt="게임" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">like3.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title">게임</div>
+              <div class="trio-desc">젠존제 포함 각종 갓겜 섭렵</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trio-grid" id="gridHate" style="display: none;">
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="hate1.jpg" alt="천적들" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">hate1.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title" style="color:#fb7185;">천적 3인방</div>
+              <div class="trio-desc">주재윤 · 김준령 · 이현승</div>
+            </div>
+          </div>
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="hate2.jpg" alt="구구단" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">hate2.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title" style="color:#fb7185;">구구단</div>
+              <div class="trio-desc">7×8 앞에서 한없이 작아짐</div>
+            </div>
+          </div>
+          <div class="trio-item">
+            <div class="photo-box trio-thumb">
+              <img src="hate3.jpg" alt="야채" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback"><span class="fb-file">hate3.jpg</span></div>
+            </div>
+            <div class="trio-meta">
+              <div class="trio-title" style="color:#fb7185;">야채</div>
+              <div class="trio-desc">75kg 유지의 일등 공신</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02. 7단 변신 도감 -->
+      <section class="panel" id="panel-forms">
+        <div class="exhibit-card">
+          <div class="exhibit-media">
+            <div class="photo-box" id="exhibitFrame">
+              <img id="exhibitImg" src="1.jpg" alt="변신 폼" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback">
+                <span class="fb-label" id="exhibitFbName">가오민찬</span>
+                <span class="fb-file" id="exhibitFbFile">1.jpg</span>
+              </div>
+            </div>
+            <div class="exhibit-index" id="exhibitIndex">01 / 07</div>
+          </div>
+          <div class="exhibit-caption">
+            <div class="exhibit-head">
+              <h2 class="exhibit-name" id="exhibitTitle">가오민찬</h2>
+              <span class="exhibit-tag" id="exhibitTag">가오 치사량 99%</span>
+            </div>
+            <p class="exhibit-text" id="exhibitDesc">
+              입술에 온 힘을 다해 삐죽 내밀며 치명적인 척하는 기본 전투 태세. 본인은 꽤 멋있다고 진심으로 착각하는 중이다.
+            </p>
+            <div class="gauge-row">
+              <span id="exhibitMetricLabel">치명 지수</span>
+              <div class="gauge-bar">
+                <div class="gauge-fill" id="exhibitMetricBar" style="width: 95%;"></div>
+              </div>
+              <span id="exhibitMetricVal" style="font-family:var(--font-mono); color:var(--text);">95%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="index-strip" id="indexStrip">
+          <button class="index-btn is-active" onclick="showForm(0)"><span class="idx-no">01</span><span class="idx-lbl">가오</span></button>
+          <button class="index-btn" onclick="showForm(1)"><span class="idx-no">02</span><span class="idx-lbl">코털</span></button>
+          <button class="index-btn" onclick="showForm(2)"><span class="idx-no">03</span><span class="idx-lbl">낙서</span></button>
+          <button class="index-btn" onclick="showForm(3)"><span class="idx-no">04</span><span class="idx-lbl">중2병</span></button>
+          <button class="index-btn" onclick="showForm(4)"><span class="idx-no">05</span><span class="idx-lbl">차은우</span></button>
+          <button class="index-btn" onclick="showForm(5)"><span class="idx-no">06</span><span class="idx-lbl">훈남</span></button>
+          <button class="index-btn" onclick="showForm(6)"><span class="idx-no">07</span><span class="idx-lbl">비버</span></button>
+        </div>
+      </section>
+
+      <!-- 03. 가상 여친 및 목표 -->
+      <section class="panel" id="panel-waifu">
+        <div class="split-pair">
+          <div class="portrait-card">
+            <div class="photo-box">
+              <img src="bocchi.jpg" alt="봇치" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback">
+                <span class="fb-label">봇치</span>
+                <span class="fb-file">bocchi.jpg</span>
+              </div>
+            </div>
+            <div class="portrait-caption">
+              <div class="portrait-code">VIRTUAL GF 01</div>
+              <div class="portrait-title">봇치 (고토 히토리)</div>
+              <p class="portrait-desc">기타를 잡게 만든 장본인. 방구석 기타 실력에 진심으로 반해버린 첫 번째 가상 여친.</p>
+            </div>
+          </div>
+
+          <div class="portrait-card">
+            <div class="photo-box">
+              <img src="suna.jpg" alt="수나" onerror="this.parentElement.classList.add('is-missing')" />
+              <div class="photo-fallback">
+                <span class="fb-label">수나 (젠존제)</span>
+                <span class="fb-file">suna.jpg</span>
+              </div>
+            </div>
+            <div class="portrait-caption">
+              <div class="portrait-code">VIRTUAL GF 02</div>
+              <div class="portrait-title">수나 (젠존제)</div>
+              <p class="portrait-desc">젠레스 존 제로 최애 캐릭터. 게임 접속과 동시에 심장을 저격당한 두 번째 가상 여친.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="goal-card">
+          <div class="photo-box">
+            <img src="band.jpg" alt="라니밴드" onerror="this.parentElement.classList.add('is-missing')" />
+            <div class="photo-fallback">
+              <span class="fb-label">라니밴드 무대</span>
+              <span class="fb-file">band.jpg</span>
+            </div>
+          </div>
+          <div class="goal-caption">
+            <div class="cover-eyebrow">PRIMARY OBJECTIVE</div>
+            <h3 style="font-size: 19px; font-weight: 900; color: #fff; margin: 2px 0 5px;">
+              라니밴드 입단 및 기타 솔로 각성
+            </h3>
+            <p style="font-size: 12px; color: var(--text-sub); max-width: 88%; line-height: 1.45;">
+              무대 위에서 화려하게 기타를 연주하는 날을 목표로 연습 중. 단, 입단 전까지 구구단 9단 마스터가 시급함.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04. 동방 스타일 탄막 보스전 -->
+      <section class="panel" id="panel-raid">
+        <div class="danmaku-layout">
+          <div class="boss-status-panel">
+            <div class="boss-header-line">
+              <div class="boss-name-label">
+                <span>가오민찬</span>
+                <span class="spell-badge" id="spellNameTag">일부 「가오 치사량 99%」</span>
+              </div>
+              <span class="boss-hp-num" id="bossHpText">4200 / 4200</span>
+            </div>
+            <div class="hp-bar-outer">
+              <div class="hp-bar-inner" id="bossHpBar"></div>
+              <!-- 축복 발동 지점 표시 (70%, 35%) -->
+              <div class="hp-tick" style="left: 70%;"></div>
+              <div class="hp-tick" style="left: 35%;"></div>
+            </div>
+            <div class="player-telemetry">
+              <span id="hudLife" style="color: #fb7185;">잔기 3</span>
+              <span id="hudGraze" style="color: var(--ivory);">GRAZE 0</span>
+              <span id="hudBlessing" style="color: var(--text-sub);">축복 0/2</span>
+            </div>
+          </div>
+
+          <div class="arena-container" id="arenaBox">
+            <canvas id="danmakuCanvas"></canvas>
+
+            <button class="spell-bomb-btn" id="bombBtn" onclick="activateBomb()">BOMB READY</button>
+
+            <!-- 시작 / 결과 오버레이 -->
+            <div class="arena-overlay" id="startOverlay">
+              <div style="font-family:var(--font-mono); font-size:10px; color:var(--accent); letter-spacing:0.12em; font-weight:800;">
+                DANMAKU BOSS ENCOUNTER
+              </div>
+              <h2 id="overlayTitle" style="font-size:24px; font-weight:900; color:#fff; margin-top:4px; letter-spacing:-0.02em;">
+                가오민찬 탄막 토벌전
+              </h2>
+              <p id="overlayDesc" style="font-size:12px; color:var(--text-sub); margin-top:8px; line-height:1.55;">
+                화면 드래그로 중심의 붉은 판정점을 이동시키세요.<br>
+                탄막을 아슬아슬하게 스치면 <strong>GRAZE</strong>가 쌓여 봄 쿨타임이 줄어듭니다.<br>
+                축복 선택은 보스 체력 <strong>70% / 35%</strong>에서 단 <strong>2회</strong>만 주어집니다.
+              </p>
+              <button class="primary-action-btn" onclick="initBossBattle()">토벌 시작</button>
+            </div>
+
+            <!-- 축복 선택 오버레이 (총 2회) -->
+            <div class="blessing-overlay hidden" id="blessingOverlay">
+              <div style="text-align:center; margin-bottom:2px;">
+                <div style="font-family:var(--font-mono); font-size:10px; color:var(--accent); letter-spacing:0.1em;" id="blessingStepText">BLESSING 1 / 2</div>
+                <h3 style="font-size:18px; font-weight:900; color:#fff;">전투 축복 선택</h3>
+              </div>
+              <div id="blessingList" style="display:flex; flex-direction:column; gap:8px;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05. 제작자 소개 -->
+      <section class="panel" id="panel-creator">
+        <div class="creator-frame">
+          <div class="photo-box creator-photo">
+            <img src="creator.jpg" alt="제작자 이현승" onerror="this.parentElement.classList.add('is-missing')" />
+            <div class="photo-fallback">
+              <span class="fb-label">제작자 본인 사진</span>
+              <span class="fb-file">creator.jpg</span>
+            </div>
+          </div>
+          <div class="creator-colophon">
+            <div class="cover-eyebrow">ARCHIVE DIRECTOR</div>
+            <div class="cover-heading" style="margin: 2px 0 8px;">
+              <h2 style="font-size: 24px; font-weight: 900; color: #fff;">제작자: 이현승</h2>
+              <span style="font-size:11px; font-weight:700; color:#fb7185;">천적 명단 1순위</span>
+            </div>
+            <p style="font-size: 13px; color: var(--text-sub); line-height: 1.55;">
+              가오민찬부터 비버민찬까지 신민찬의 전설적인 7단 변신 기록을 영구 보존하기 위해 본 아카이브와 탄막 토벌 시스템을 설계한 총괄 프로듀서.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 하단 내비게이션 -->
+    <nav class="tabbar">
+      <button class="tab-btn is-active" onclick="openPanel('profile', 'INDEX 01', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 14.5-4 16 0"/></svg>
+        <span>프로필</span>
+      </button>
+      <button class="tab-btn" onclick="openPanel('forms', 'INDEX 02', this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>7단변신</span>
+      </button>
+      <button class="tab-btn" onclick="openPanel('waifu', 'INDEX 03', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>
+        <span>여친·목표</span>
+      </button>
+      <button class="tab-btn" onclick="openPanel('raid', 'INDEX 04', this)">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
+        <span>보스전</span>
+      </button>
+      <button class="tab-btn" onclick="openPanel('creator', 'INDEX 05', this)">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg>
+        <span>제작자</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    /* =========================================
+       1. 패널 & 탭 전환
+       ========================================= */
+    function openPanel(id, code, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('is-active');
+      document.getElementById('headerCode').textContent = code;
+
+      if (id === 'raid') {
+        fitArenaCanvas();
+      }
+    }
+
+    function togglePrefTab(type) {
+      const gLike = document.getElementById('gridLike');
+      const gHate = document.getElementById('gridHate');
+      const bLike = document.getElementById('segLike');
+      const bHate = document.getElementById('segHate');
+
+      if (type === 'like') {
+        gLike.style.display = 'grid';
+        gHate.style.display = 'none';
+        bLike.className = 'segment-btn is-active';
+        bHate.className = 'segment-btn';
+      } else {
+        gLike.style.display = 'none';
+        gHate.style.display = 'grid';
+        bLike.className = 'segment-btn';
+        bHate.className = 'segment-btn is-active hate';
+      }
+    }
+
+    /* =========================================
+       2. 7단 변신 도감 데이터
+       ========================================= */
+    const ARCHIVE_FORMS = [
+      {
+        idx: '01 / 07',
+        file: '1.jpg',
+        name: '가오민찬',
+        tag: '가오 치사량 99%',
+        desc: '입술에 온 힘을 다해 삐죽 내밀며 치명적인 척하는 기본 전투 태세. 본인은 꽤 멋있다고 진심으로 착각하는 중이다.',
+        metric: '치명 지수',
+        pct: '95%'
+      },
+      {
+        idx: '02 / 07',
+        file: '2.jpg',
+        name: '코털민찬',
+        tag: '생태계 교란종',
+        desc: '인중을 덮어버리는 압도적 길이의 코털 수염 폼. 마주치는 순간 시선 강탈과 동시에 정신 데미지를 입힌다.',
+        metric: '충격 지수',
+        pct: '100%'
+      },
+      {
+        idx: '03 / 07',
+        file: '3.jpg',
+        name: '낙서민찬',
+        tag: '방어력 0',
+        desc: '누가 업어가도 모를 정도로 딥슬립에 빠진 무방비 상태. 얼굴이 도화지처럼 평온해서 낙서 욕구를 자극한다.',
+        metric: '숙면 지수',
+        pct: '98%'
+      },
+      {
+        idx: '04 / 07',
+        file: '4.jpg',
+        name: '중2병민찬',
+        tag: '친한친구 공개',
+        desc: '고개를 45도 꺾고 마스크로 하관을 봉인한 인스타 스토리 폼. 왼손에 흑염룡이 꿈틀거리는 것 같은 눈빛이 포인트.',
+        metric: '흑염룡 농도',
+        pct: '92%'
+      },
+      {
+        idx: '05 / 07',
+        file: '5.jpg',
+        name: '차은우민찬',
+        tag: '양심 실종',
+        desc: '차은우 본체 위에 신민찬의 눈코입만 네모낳게 오려 붙인 금단의 합성체. 볼수록 묘하게 빠져드는 마성의 비주얼.',
+        metric: '싱크로율',
+        pct: '12%'
+      },
+      {
+        idx: '06 / 07',
+        file: '6.jpg',
+        name: '훈남민찬',
+        tag: '기적의 옆선',
+        desc: '회색 후드티에 자연광, 스마트폰 집중 모드가 겹쳐 탄생한 기적의 1컷. 같은 사람이 맞나 의심되는 유일한 폼.',
+        metric: '사기캐 지수',
+        pct: '89%'
+      },
+      {
+        idx: '07 / 07',
+        file: '7.jpg',
+        name: '비버민찬',
+        tag: '앞니 풀개방',
+        desc: '버스 창가에서 앞니 두 개를 시원하게 드러내며 해맑게 웃는 초식동물 폼. 댐이라도 지을 기세의 순수한 미소.',
+        metric: '무해함',
+        pct: '100%'
+      }
+    ];
+
+    function showForm(i) {
+      const item = ARCHIVE_FORMS[i];
+      const box = document.getElementById('exhibitFrame');
+      box.classList.remove('is-missing');
+      document.getElementById('exhibitImg').src = item.file;
+      document.getElementById('exhibitFbName').textContent = item.name;
+      document.getElementById('exhibitFbFile').textContent = item.file;
+      document.getElementById('exhibitIndex').textContent = item.idx;
+      document.getElementById('exhibitTitle').textContent = item.name;
+      document.getElementById('exhibitTag').textContent = item.tag;
+      document.getElementById('exhibitDesc').textContent = item.desc;
+      document.getElementById('exhibitMetricLabel').textContent = item.metric;
+      document.getElementById('exhibitMetricBar').style.width = item.pct;
+      document.getElementById('exhibitMetricVal').textContent = item.pct;
+
+      document.querySelectorAll('.index-btn').forEach((b, idx) => {
+        b.classList.toggle('is-active', idx === i);
+      });
+    }
+
+    /* =========================================
+       3. 동방 프로젝트 스타일 탄막 보스 파이트
+       ========================================= */
+    const canvas = document.getElementById('danmakuCanvas');
+    const ctx = canvas.getContext('2d');
+    const arenaBox = document.getElementById('arenaBox');
+
+    const bossPortrait = new Image();
+    let portraitLoaded = false;
+    bossPortrait.onload = () => { if (bossPortrait.naturalWidth > 0) portraitLoaded = true; };
+    bossPortrait.onerror = () => { portraitLoaded = false; };
+    bossPortrait.src = '1.jpg';
+
+    function fitArenaCanvas() {
+      const rect = arenaBox.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
+    }
+    window.addEventListener('resize', fitArenaCanvas);
+
+    // 축복 풀 (전투 중 총 2회만 등장하므로 임팩트 있게 구성)
+    const BLESSINGS = [
+      {
+        code: 'OFFENSE // MULTI-NEEDLE',
+        title: '구구단 9단 집중 포화',
+        desc: '전방 탄환 발사 수 +2줄 증가 및 연사 속도 +20% 상승'
+      },
+      {
+        code: 'DEFENSE // VEGETABLE ORBIT',
+        title: '브로콜리 궤도 결계',
+        desc: '기체 주위를 공전하는 야채 결계 2기 생성 (접촉한 적 탄막 소거)'
+      },
+      {
+        code: 'TRACKING // NEMESIS MISSILE',
+        title: '김준령의 고폭 유도탄',
+        desc: '보스를 끝까지 추적하는 고데미지 유도 탄환 추가 발사'
+      },
+      {
+        code: 'CRITICAL // 7x8=56 SHOCK',
+        title: '7×8=56 정신 충격파',
+        desc: '공격력 +45% 증가 및 치명타 확률 40% 부여 (치명타 피해 2.2배)'
+      },
+      {
+        code: 'SURVIVAL // GRAZE OVERDRIVE',
+        title: '이현승의 간파 기동',
+        desc: '잔기 +1 회복, 그레이즈 판정 범위 확대 및 봄 쿨타임 40% 단축'
+      }
+    ];
+
+    let battleState = 'idle'; // idle, active, blessing, ended
+    let tick = 0;
+    let shake = 0;
+    let grazeCount = 0;
+    let blessingsTaken = 0;
+    const BLESSING_THRESHOLDS = [0.70, 0.35]; // 딱 2번만 축복 선택!
+
+    let pState = {};
+    let boss = {};
+    let myShots = [];
+    let enemyDanmaku = [];
+    let lasers = [];
+    let sparks = [];
+    let popups = [];
+
+    function initBossBattle() {
+      fitArenaCanvas();
+      const W = canvas.width;
+      const H = canvas.height;
+
+      pState = {
+        x: W / 2,
+        y: H - 68,
+        hitR: 3.5,     // 동방 스타일 극소 피격 코어
+        grazeR: 20,    // 그레이즈 판정 반경
+        invuln: 0,
+        life: 3,
+        dmg: 16,
+        fireRate: 7,
+        streams: 2,
+        orbitCount: 0,
+        homing: false,
+        critChance: 0.12,
+        bombCd: 0,
+        bombMaxCd: 360
+      };
+
+      boss = {
+        x: W / 2,
+        y: 86,
+        r: 36,
+        hp: 4200,
+        maxHp: 4200,
+        phase: 1,
+        baseX: W / 2,
+        hitFlash: 0,
+        spiralA: 0,
+        spiralB: 0,
+        patternTick: 0
+      };
+
+      tick = 0;
+      shake = 0;
+      grazeCount = 0;
+      blessingsTaken = 0;
+      myShots = [];
+      enemyDanmaku = [];
+      lasers = [];
+      sparks = [];
+      popups = [];
+
+      document.getElementById('spellNameTag').textContent = '일부 「가오 치사량 99%」';
+      document.getElementById('startOverlay').classList.add('hidden');
+      document.getElementById('blessingOverlay').classList.add('hidden');
+      updateHud();
+
+      battleState = 'active';
+      requestAnimationFrame(danmakuLoop);
+    }
+
+    function updateHud() {
+      const ratio = Math.max(0, boss.hp / boss.maxHp);
+      document.getElementById('bossHpBar').style.width = (ratio * 100) + '%';
+      document.getElementById('bossHpText').textContent = `${Math.max(0, Math.ceil(boss.hp))} / ${boss.maxHp}`;
+      document.getElementById('hudLife').textContent = `잔기 ${Math.max(0, pState.life)}`;
+      document.getElementById('hudGraze').textContent = `GRAZE ${grazeCount}`;
+      document.getElementById('hudBlessing').textContent = `축복 ${blessingsTaken}/2`;
+
+      const bBtn = document.getElementById('bombBtn');
+      if (pState.bombCd > 0) {
+        bBtn.disabled = true;
+        bBtn.textContent = `BOMB ${(pState.bombCd / 60).toFixed(1)}s`;
+      } else {
+        bBtn.disabled = false;
+        bBtn.textContent = 'BOMB READY';
+      }
+    }
+
+    function activateBomb() {
+      if (battleState !== 'active' || pState.bombCd > 0) return;
+      pState.bombCd = pState.bombMaxCd;
+      pState.invuln = 75;
+      shake = 12;
+
+      // 동방 봄(스펠카드 회피)처럼 화면 탄막 대량 소거 + 보스 고정 피해
+      const cleared = enemyDanmaku.length;
+      enemyDanmaku = [];
+      lasers = [];
+      spawnSparks(pState.x, pState.y, '#e11d48', 28);
+      addPopup(pState.x, pState.y - 24, `스펠 회피 (${cleared}탄 소거)`, '#f4f4f6');
+      damageBoss(160, false);
+    }
+
+    function triggerBlessingChoice() {
+      battleState = 'blessing';
+      blessingsTaken += 1;
+      document.getElementById('blessingStepText').textContent = `BLESSING ${blessingsTaken} / 2`;
+
+      const choices = [...BLESSINGS].sort(() => Math.random() - 0.5).slice(0, 3);
+      const listEl = document.getElementById('blessingList');
+      listEl.innerHTML = '';
+
+      choices.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'blessing-item';
+        card.innerHTML = `
+          <div class="blessing-code">${item.code}</div>
+          <div class="blessing-title">${item.title}</div>
+          <div class="blessing-desc">${item.desc}</div>
+        `;
+        card.onclick = () => {
+          applyBlessing(item.code);
+          // 축복 선택 직후 피격 방지를 위해 플레이어 주변 근접 탄막만 정리
+          enemyDanmaku = enemyDanmaku.filter(b => Math.hypot(b.x - pState.x, b.y - pState.y) > 95);
+          document.getElementById('blessingOverlay').classList.add('hidden');
+          updateHud();
+          battleState = 'active';
+          requestAnimationFrame(danmakuLoop);
+        };
+        listEl.appendChild(card);
+      });
+
+      document.getElementById('blessingOverlay').classList.remove('hidden');
+    }
+
+    function applyBlessing(code) {
+      if (code.includes('MULTI-NEEDLE')) {
+        pState.streams += 2;
+        pState.fireRate = Math.max(4, pState.fireRate - 2);
+      } else if (code.includes('VEGETABLE')) {
+        pState.orbitCount += 2;
+      } else if (code.includes('NEMESIS')) {
+        pState.homing = true;
+      } else if (code.includes('SHOCK')) {
+        pState.dmg = Math.round(pState.dmg * 1.45);
+        pState.critChance = 0.40;
+      } else if (code.includes('GRAZE')) {
+        pState.life += 1;
+        pState.grazeR = 28;
+        pState.bombMaxCd = Math.round(pState.bombMaxCd * 0.6);
+      }
+    }
+
+    function spawnSparks(x, y, color, n) {
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const v = 1 + Math.random() * 3.8;
+        sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 18 + Math.random() * 12, color });
+      }
+    }
+
+    function addPopup(x, y, text, color) {
+      popups.push({ x, y, text, color, life: 34 });
+    }
+
+    function damageBoss(val, isCrit) {
+      boss.hp -= val;
+      boss.hitFlash = 3;
+
+      const hpPct = boss.hp / boss.maxHp;
+
+      // 페이즈 전환 (스펠카드 선언)
+      if (hpPct <= 0.65 && boss.phase === 1) {
+        boss.phase = 2;
+        boss.patternTick = 0;
+        enemyDanmaku = [];
+        shake = 14;
+        document.getElementById('spellNameTag').textContent = '이부 「인중을 덮는 코털 폭풍」';
+        addPopup(boss.x, boss.y + 42, '스펠카드 발동: 코털 폭풍', '#e11d48');
+      } else if (hpPct <= 0.30 && boss.phase === 2) {
+        boss.phase = 3;
+        boss.patternTick = 0;
+        enemyDanmaku = [];
+        shake = 18;
+        document.getElementById('spellNameTag').textContent = '종부 「라니밴드 각성 난무」';
+        addPopup(boss.x, boss.y + 42, '최종 스펠: 라니밴드 각성 난무', '#eab308');
+      }
+
+      if (boss.hp <= 0) {
+        boss.hp = 0;
+        updateHud();
+        finishBattle(true);
+        return;
+      }
+
+      // 축복 발동 체크 (70%, 35% 지점에서 총 2번만)
+      if (blessingsTaken < BLESSING_THRESHOLDS.length && hpPct <= BLESSING_THRESHOLDS[blessingsTaken]) {
+        updateHud();
+        triggerBlessingChoice();
+      }
+    }
+
+    function hitPlayer() {
+      if (pState.invuln > 0) return;
+      pState.life -= 1;
+      pState.invuln = 90;
+      shake = 15;
+      // 피탄 봄 판정으로 근접 탄막 소거
+      enemyDanmaku = enemyDanmaku.filter(b => Math.hypot(b.x - pState.x, b.y - pState.y) > 110);
+      spawnSparks(pState.x, pState.y, '#e11d48', 24);
+      addPopup(pState.x, pState.y - 16, '피탄 (-1 잔기)', '#fb7185');
+      updateHud();
+
+      if (pState.life <= 0) {
+        finishBattle(false);
+      }
+    }
+
+    function finishBattle(win) {
+      battleState = 'ended';
+      const ov = document.getElementById('startOverlay');
+      const title = document.getElementById('overlayTitle');
+      const desc = document.getElementById('overlayDesc');
+
+      if (win) {
+        title.textContent = '가오민찬 스펠카드 완전 격파';
+        title.style.color = '#f4f4f6';
+        desc.innerHTML = `탄막 지옥을 돌파했습니다.<br>총 그레이즈: <strong>${grazeCount}회</strong> · 잔여 잔기: <strong>${pState.life}</strong>`;
+      } else {
+        title.textContent = '만신창이 패배 (피탄 초과)';
+        title.style.color = '#fb7185';
+        desc.innerHTML = `남은 보스 체력: <strong>${Math.ceil(boss.hp)}</strong> · 그레이즈: <strong>${grazeCount}회</strong><br>붉은 중심 판정점에 집중해 탄막 틈새를 파고드세요.`;
+      }
+      ov.classList.remove('hidden');
+    }
+
+    /* 동방 프로젝트풍 다중 기하학 탄막 생성기 */
+    function emitTouhouDanmaku() {
+      boss.patternTick++;
+      const t = boss.patternTick;
+
+      if (boss.phase === 1) {
+        // [Phase 1] 이중 역회전 꽃잎 나선 + 주기적 원형 링
+        if (t % 5 === 0) {
+          boss.spiralA += 0.21;
+          boss.spiralB -= 0.19;
+          const ways = 5;
+          for (let i = 0; i < ways; i++) {
+            const a1 = boss.spiralA + (Math.PI * 2 / ways) * i;
+            const a2 = boss.spiralB + (Math.PI * 2 / ways) * i;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(a1) * 2.5, vy: Math.sin(a1) * 2.5,
+              r: 4.2, color: '#e11d48', grazed: false
+            });
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(a2) * 2.1, vy: Math.sin(a2) * 2.1,
+              r: 4.2, color: '#38bdf8', grazed: false
+            });
+          }
+        }
+        // 65프레임마다 조준 5방향 침탄
+        if (t % 65 === 0) {
+          const aim = Math.atan2(pState.y - boss.y, pState.x - boss.x);
+          for (let k = -2; k <= 2; k++) {
+            const ang = aim + k * 0.13;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y + 10,
+              vx: Math.cos(ang) * 3.8, vy: Math.sin(ang) * 3.8,
+              r: 4.8, color: '#eab308', grazed: false
+            });
+          }
+        }
+      } else if (boss.phase === 2) {
+        // [Phase 2] 24방위 교차 웨이브 링 + 커브 탄막
+        if (t % 28 === 0) {
+          const ringCount = 24;
+          const offset = (t / 28) * 0.13;
+          for (let i = 0; i < ringCount; i++) {
+            const ang = offset + (Math.PI * 2 / ringCount) * i;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(ang) * 2.6, vy: Math.sin(ang) * 2.6,
+              curve: (t % 56 === 0 ? 0.008 : -0.008),
+              r: 4.2, color: '#a855f7', grazed: false
+            });
+          }
+        }
+        // 45프레임마다 플레이어 조준 7연발 바늘탄
+        if (t % 45 === 0) {
+          const aim = Math.atan2(pState.y - boss.y, pState.x - boss.x);
+          for (let k = -3; k <= 3; k++) {
+            const ang = aim + k * 0.11;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(ang) * 3.5, vy: Math.sin(ang) * 3.5,
+              r: 4.5, color: '#e11d48', grazed: false
+            });
+          }
+        }
+      } else {
+        // [Phase 3] 최종 스펠: 6줄 고속 나선 + 28방위 전방위 폭발 + 수직 레이저
+        if (t % 4 === 0) {
+          boss.spiralA += 0.24;
+          const arms = 6;
+          for (let i = 0; i < arms; i++) {
+            const a = boss.spiralA + (Math.PI * 2 / arms) * i;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(a) * 2.8, vy: Math.sin(a) * 2.8,
+              r: 4.0, color: '#e11d48', grazed: false
+            });
+          }
+        }
+        if (t % 52 === 0) {
+          const ring = 28;
+          const base = Math.random() * Math.PI;
+          for (let i = 0; i < ring; i++) {
+            const a = base + (Math.PI * 2 / ring) * i;
+            enemyDanmaku.push({
+              x: boss.x, y: boss.y,
+              vx: Math.cos(a) * 2.3, vy: Math.sin(a) * 2.3,
+              r: 4.5, color: '#eab308', grazed: false
+            });
+          }
+        }
+        if (t % 95 === 0) {
+          lasers.push({ x: pState.x, warn: 45, active: 15, w: 18 });
+        }
+      }
+    }
+
+    function danmakuLoop() {
+      if (battleState !== 'active') return;
+      tick++;
+
+      const W = canvas.width;
+      const H = canvas.height;
+
+      if (pState.bombCd > 0) pState.bombCd--;
+      if (pState.invuln > 0) pState.invuln--;
+      if (boss.hitFlash > 0) boss.hitFlash--;
+
+      ctx.save();
+      if (shake > 0) {
+        shake--;
+        ctx.translate((Math.random() - 0.5) * 6, (Math.random() - 0.5) * 6);
+      }
+
+      // 다크 아레나 배경 및 미세 격자
+      ctx.fillStyle = '#08080a';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 36) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (let gy = 0; gy < H; gy += 36) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+
+      // 동방 스타일 마법진 링 (보스 배후)
+      ctx.save();
+      ctx.translate(boss.x, boss.y);
+      ctx.rotate(tick * 0.015);
+      ctx.strokeStyle = 'rgba(225, 29, 72, 0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(-42, -42, 84, 84);
+      ctx.rotate(Math.PI / 4);
+      ctx.strokeRect(-42, -42, 84, 84);
+      ctx.restore();
+
+      // 보스 부유 이동
+      boss.x = boss.baseX + Math.sin(tick * 0.022) * (W * 0.24);
+      boss.y = 84 + Math.cos(tick * 0.035) * 10;
+
+      emitTouhouDanmaku();
+
+      // 플레이어 샷 발사
+      if (tick % pState.fireRate === 0) {
+        const s = pState.streams;
+        for (let i = 0; i < s; i++) {
+          const offsetX = (i - (s - 1) / 2) * 8;
+          myShots.push({
+            x: pState.x + offsetX,
+            y: pState.y - 10,
+            vx: offsetX * 0.06,
+            vy: -10.5,
+            dmg: pState.dmg,
+            homing: false
+          });
+        }
+        if (pState.homing && tick % (pState.fireRate * 2) === 0) {
+          myShots.push({ x: pState.x - 14, y: pState.y, vx: -2.2, vy: -5, dmg: Math.round(pState.dmg * 0.9), homing: true });
+          myShots.push({ x: pState.x + 14, y: pState.y, vx: 2.2, vy: -5, dmg: Math.round(pState.dmg * 0.9), homing: true });
+        }
+      }
+
+      // 브로콜리 궤도 결계 업데이트
+      for (let o = 0; o < pState.orbitCount; o++) {
+        const ang = tick * 0.08 + (Math.PI * 2 / pState.orbitCount) * o;
+        const ox = pState.x + Math.cos(ang) * 30;
+        const oy = pState.y + Math.sin(ang) * 30;
+
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath();
+        ctx.arc(ox, oy, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        for (let eb = enemyDanmaku.length - 1; eb >= 0; eb--) {
+          if (Math.hypot(enemyDanmaku[eb].x - ox, enemyDanmaku[eb].y - oy) < 12) {
+            spawnSparks(ox, oy, '#10b981', 3);
+            enemyDanmaku.splice(eb, 1);
+          }
+        }
+      }
+
+      // 플레이어 탄환 업데이트
+      for (let i = myShots.length - 1; i >= 0; i--) {
+        const sh = myShots[i];
+        if (sh.homing) {
+          const ang = Math.atan2(boss.y - sh.y, boss.x - sh.x);
+          sh.vx = sh.vx * 0.88 + Math.cos(ang) * 1.4;
+          sh.vy = sh.vy * 0.88 + Math.sin(ang) * 1.4;
+        }
+        sh.x += sh.vx;
+        sh.y += sh.vy;
+
+        ctx.fillStyle = sh.homing ? '#eab308' : 'rgba(244, 244, 246, 0.85)';
+        ctx.fillRect(sh.x - 1.5, sh.y - 7, 3, 14);
+
+        if (Math.hypot(sh.x - boss.x, sh.y - boss.y) < boss.r + 4) {
+          const crit = Math.random() < pState.critChance;
+          const dealt = crit ? Math.round(sh.dmg * 2.2) : sh.dmg;
+          spawnSparks(sh.x, sh.y, crit ? '#eab308' : '#e11d48', crit ? 5 : 2);
+          myShots.splice(i, 1);
+          damageBoss(dealt, crit);
+          if (battleState !== 'active') { ctx.restore(); return; }
+          continue;
+        }
+
+        if (sh.y < -20 || sh.x < -20 || sh.x > W + 20) {
+          myShots.splice(i, 1);
+        }
+      }
+
+      // 레이저 처리
+      for (let i = lasers.length - 1; i >= 0; i--) {
+        const lz = lasers[i];
+        if (lz.warn > 0) {
+          lz.warn--;
+          ctx.strokeStyle = 'rgba(225, 29, 72, 0.55)';
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath(); ctx.moveTo(lz.x, boss.y); ctx.lineTo(lz.x, H); ctx.stroke();
+          ctx.setLineDash([]);
+        } else if (lz.active > 0) {
+          lz.active--;
+          ctx.fillStyle = 'rgba(225, 29, 72, 0.85)';
+          ctx.fillRect(lz.x - lz.w / 2, boss.y, lz.w, H - boss.y);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(lz.x - lz.w / 6, boss.y, lz.w / 3, H - boss.y);
+
+          if (Math.abs(pState.x - lz.x) < lz.w / 2 + pState.hitR && pState.y > boss.y) {
+            hitPlayer();
+          }
+        } else {
+          lasers.splice(i, 1);
+        }
+      }
+
+      // 동방 스타일 탄막 업데이트 (백색 코어 + 컬러 외곽 링)
+      for (let i = enemyDanmaku.length - 1; i >= 0; i--) {
+        const b = enemyDanmaku[i];
+        if (b.curve) {
+          const spd = Math.hypot(b.vx, b.vy);
+          const ang = Math.atan2(b.vy, b.vx) + b.curve;
+          b.vx = Math.cos(ang) * spd;
+          b.vy = Math.sin(ang) * spd;
+        }
+        b.x += b.vx;
+        b.y += b.vy;
+
+        // 외곽 컬러 글로우
+        ctx.fillStyle = b.color;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 내부 순백 코어 (동방 프로젝트 탄막 시인성 핵심)
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r * 0.52, 0, Math.PI * 2);
+        ctx.fill();
+
+        const dist = Math.hypot(b.x - pState.x, b.y - pState.y);
+
+        // 그레이즈(스치기) 판정
+        if (!b.grazed && dist < b.r + pState.grazeR && dist >= b.r + pState.hitR) {
+          b.grazed = true;
+          grazeCount++;
+          if (pState.bombCd > 0) pState.bombCd = Math.max(0, pState.bombCd - 8);
+          spawnSparks(pState.x, pState.y, '#ffffff', 2);
+        }
+
+        // 정밀 피격 판정
+        if (dist < b.r + pState.hitR - 0.8) {
+          enemyDanmaku.splice(i, 1);
+          hitPlayer();
+          if (battleState !== 'active') { ctx.restore(); return; }
+          continue;
+        }
+
+        if (b.y > H + 24 || b.y < -30 || b.x < -24 || b.x > W + 24) {
+          enemyDanmaku.splice(i, 1);
+        }
+      }
+
+      // 보스 본체 렌더링 (가오민찬 1.jpg)
+      ctx.save();
+      ctx.translate(boss.x, boss.y);
+      ctx.beginPath();
+      ctx.arc(0, 0, boss.r, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+
+      if (portraitLoaded) {
+        ctx.drawImage(bossPortrait, -boss.r, -boss.r, boss.r * 2, boss.r * 2);
+      } else {
+        ctx.fillStyle = '#18181d';
+        ctx.fillRect(-boss.r, -boss.r, boss.r * 2, boss.r * 2);
+        ctx.fillStyle = '#f4f4f6';
+        ctx.font = '800 12px Pretendard, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('가오민찬', 0, 0);
+      }
+
+      if (boss.hitFlash > 0) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.fillRect(-boss.r, -boss.r, boss.r * 2, boss.r * 2);
+      }
+      ctx.restore();
+
+      ctx.strokeStyle = '#e11d48';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(boss.x, boss.y, boss.r, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // 플레이어 기체 및 동방 정밀 피격 코어 표시
+      if (pState.invuln === 0 || tick % 4 < 2) {
+        // 기체 실루엣
+        ctx.strokeStyle = 'rgba(244, 244, 246, 0.45)';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(pState.x, pState.y - 14);
+        ctx.lineTo(pState.x - 10, pState.y + 10);
+        ctx.lineTo(pState.x + 10, pState.y + 10);
+        ctx.closePath();
+        ctx.stroke();
+
+        // 그레이즈 영역 희미한 링
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.beginPath();
+        ctx.arc(pState.x, pState.y, pState.grazeR, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // 중심 피격 판정점 (붉은 테두리 + 흰 코어)
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(pState.x, pState.y, pState.hitR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#e11d48';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // 스파크 & 팝업 텍스트
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const sp = sparks[i];
+        sp.x += sp.vx;
+        sp.y += sp.vy;
+        sp.life--;
+        ctx.fillStyle = sp.color;
+        ctx.fillRect(sp.x, sp.y, 2.5, 2.5);
+        if (sp.life <= 0) sparks.splice(i, 1);
+      }
+
+      for (let i = popups.length - 1; i >= 0; i--) {
+        const pp = popups[i];
+        pp.y -= 0.8;
+        pp.life--;
+        ctx.font = '700 11px Pretendard, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = pp.color;
+        ctx.fillText(pp.text, pp.x, pp.y);
+        if (pp.life <= 0) popups.splice(i, 1);
+      }
+
+      ctx.restore();
+      updateHud();
+      requestAnimationFrame(danmakuLoop);
+    }
+
+    // 1:1 정밀 터치 & 마우스 드래그
+    let dragging = false;
+    let prevX = 0;
+    let prevY = 0;
+
+    arenaBox.addEventListener('touchstart', e => {
+      if (battleState !== 'active') return;
+      dragging = true;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
+    }, { passive: true });
+
+    arenaBox.addEventListener('touchmove', e => {
+      if (!dragging || battleState !== 'active') return;
+      e.preventDefault();
+      const cx = e.touches[0].clientX;
+      const cy = e.touches[0].clientY;
+      pState.x = Math.max(12, Math.min(canvas.width - 12, pState.x + (cx - prevX) * 1.1));
+      pState.y = Math.max(130, Math.min(canvas.height - 14, pState.y + (cy - prevY) * 1.1));
+      prevX = cx;
+      prevY = cy;
+    }, { passive: false });
+
+    arenaBox.addEventListener('touchend', () => { dragging = false; });
+
+    arenaBox.addEventListener('mousedown', e => {
+      if (battleState !== 'active') return;
+      dragging = true;
+      prevX = e.clientX;
+      prevY = e.clientY;
+    });
+    window.addEventListener('mousemove', e => {
+      if (!dragging || battleState !== 'active') return;
+      pState.x = Math.max(12, Math.min(canvas.width - 12, pState.x + (e.clientX - prevX)));
+      pState.y = Math.max(130, Math.min(canvas.height - 14, pState.y + (e.clientY - prevY)));
+      prevX = e.clientX;
+      prevY = e.clientY;
+    });
+    window.addEventListener('mouseup', () => { dragging = false; });
+
+    window.addEventListener('keydown', e => {
+      if (e.code === 'Space') activateBomb();
+    });
+  </script>
+</body>
+</html>
