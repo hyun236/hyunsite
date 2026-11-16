@@ -1,19 +1,1686 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>White Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>신민찬 공식 인물 도감 | 7단 변신 &amp; 라니밴드 예비 기타리스트</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
-    html, body {
+    :root {
+      --bg: #090b14;
+      --card: #131729;
+      --card-2: #1a2038;
+      --pink: #ff5ca8;
+      --cyan: #38bdf8;
+      --purple: #a855f7;
+      --yellow: #facc15;
+      --red: #ff4d4d;
+      --green: #22c55e;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.11);
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(255, 92, 168, 0.16), transparent 35%),
+        radial-gradient(circle at 88% 22%, rgba(56, 189, 248, 0.15), transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.14), transparent 45%);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 90px;
+    }
+
+    /* 상단 고정 편집 툴바 */
+    .editor-bar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(9, 11, 20, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .brand-tag {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.4px;
+      color: var(--yellow);
+    }
+
+    .editor-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.12s ease;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-edit {
+      background: var(--card-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-edit.active {
+      background: var(--pink);
+      color: #fff;
+      border-color: var(--pink);
+      box-shadow: 0 0 14px rgba(255, 92, 168, 0.55);
+    }
+
+    .btn-export {
+      background: var(--cyan);
+      color: #05131f;
+    }
+
+    .btn-reset {
+      background: rgba(255, 77, 77, 0.18);
+      color: #ff8585;
+      border: 1px solid rgba(255, 77, 77, 0.35);
+    }
+
+    body.editing [data-editable] {
+      outline: 2px dashed rgba(250, 204, 21, 0.85);
+      outline-offset: 3px;
+      border-radius: 6px;
+      background: rgba(250, 204, 21, 0.08);
+      cursor: text;
+    }
+
+    .edit-notice {
+      display: none;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 12px;
+    }
+
+    body.editing .edit-notice {
+      display: block;
+    }
+
+    /* 레이아웃 컨테이너 */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+    }
+
+    /* 이미지 슬롯 공통 */
+    .img-slot {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0d1120;
+      border: 2px solid var(--border);
+      cursor: pointer;
+    }
+
+    .img-slot img {
       width: 100%;
       height: 100%;
-      background-color: #ffffff;
+      object-fit: cover;
+      display: block;
+    }
+
+    .fallback-svg {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .img-slot.is-fallback .fallback-svg {
+      display: block;
+    }
+
+    .img-slot.is-fallback img {
+      display: none;
+    }
+
+    .img-upload-badge {
+      position: absolute;
+      bottom: 9px;
+      right: 9px;
+      background: rgba(9, 11, 20, 0.85);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 800;
+      z-index: 5;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    }
+
+    .img-slot:active .img-upload-badge {
+      background: var(--pink);
+    }
+
+    /* 1. 히어로 프로필 */
+    .hero-banner {
+      background: linear-gradient(145deg, #1a1f38 0%, #101424 100%);
+      border: 1px solid rgba(255, 92, 168, 0.4);
+    }
+
+    .hero-photo-box {
+      height: 330px;
+      margin-bottom: 18px;
+    }
+
+    .hero-name-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .hero-name {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 38px;
+      background: linear-gradient(90deg, #fff, var(--pink), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--yellow);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .stat-item {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .stat-val {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      word-break: keep-all;
+    }
+
+    /* 2. 신민찬 7단 변신 도감 (핵심 갤러리!) */
+    .forms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 540px) {
+      .forms-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-card {
+      background: var(--card-2);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease;
+    }
+
+    .form-card.featured {
+      grid-column: 1 / -1;
+      border-color: rgba(250, 204, 21, 0.45);
+    }
+
+    .form-img-wrap {
+      height: 270px;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-card.featured .form-img-wrap {
+      height: 310px;
+    }
+
+    .form-body {
+      padding: 14px;
+    }
+
+    .form-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .form-name {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    .form-rank {
+      font-size: 11px;
+      font-weight: 900;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(250, 204, 21, 0.18);
+      color: var(--yellow);
+    }
+
+    .form-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .form-meter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .mini-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mini-bar > div {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* 3. 가상 여친들 */
+    .gf-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 540px) {
+      .gf-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .gf-card {
+      background: var(--card-2);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 92, 168, 0.35);
+      overflow: hidden;
+    }
+
+    .gf-card.suna {
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .gf-img-wrap {
+      height: 275px;
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gf-info {
+      padding: 14px;
+    }
+
+    .gf-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .gf-name {
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 20px;
+    }
+
+    .love-meter {
+      background: rgba(255, 92, 168, 0.22);
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: 900;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .gf-card.suna .love-meter {
+      background: rgba(56, 189, 248, 0.22);
+      color: var(--cyan);
+    }
+
+    .gf-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+
+    /* 4. 호불호 비주얼 그리드 */
+    .visual-3grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 560px) {
+      .visual-3grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .v-card {
+      background: var(--card-2);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .v-card-img {
+      height: 160px;
+      border-radius: 0;
+      border: none;
+    }
+
+    .v-card-body {
+      padding: 12px;
+    }
+
+    .v-card-title {
+      font-weight: 900;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .v-card-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hate-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .hate-pill {
+      background: rgba(255, 77, 77, 0.2);
+      border: 1px solid rgba(255, 77, 77, 0.45);
+      color: #ff9e9e;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    /* 5. 목표: 라니밴드 */
+    .dream-box {
+      background: linear-gradient(135deg, #251540 0%, #131d38 100%);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+    }
+
+    .dream-img {
+      height: 225px;
+      margin-bottom: 14px;
+    }
+
+    .progress-wrap {
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 999px;
+      height: 18px;
+      padding: 3px;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 28%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--yellow));
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      font-size: 10px;
+      font-weight: 900;
+      color: #000;
+    }
+
+    /* 6. 미니게임 */
+    .game-section {
+      border: 2px solid var(--yellow);
+      background: linear-gradient(180deg, #171c30 0%, #0d101d 100%);
+    }
+
+    .game-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #080a12;
+      padding: 10px 14px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid var(--border);
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(250, 204, 21, 0.5);
+      background: #080a12;
+      touch-action: none;
+    }
+
+    canvas#chaseGame {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .game-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 10, 18, 0.88);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .game-overlay.hidden {
+      display: none;
+    }
+
+    .game-start-btn {
+      margin-top: 14px;
+      background: linear-gradient(90deg, var(--yellow), #fb923c);
+      color: #000;
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: 19px;
+      padding: 12px 28px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(250, 204, 21, 0.4);
+    }
+
+    .touch-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-width: 400px;
+      margin: 12px auto 0;
+    }
+
+    .touch-btn {
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      padding: 14px;
+      border-radius: 14px;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .touch-btn:active {
+      background: var(--yellow);
+      color: #000;
+    }
+
+    /* 7. 제작자 소개 (이현승) */
+    .creator-card {
+      display: grid;
+      grid-template-columns: 185px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    @media (max-width: 520px) {
+      .creator-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .creator-img {
+      height: 250px;
+    }
+
+    /* 토스트 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #ffffff;
+      color: #090b14;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+      transition: transform 0.25s ease;
+      z-index: 2000;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    input[type="file"] {
+      display: none;
     }
   </style>
 </head>
 <body>
+
+  <!-- 상단 고정 편집 바 -->
+  <div class="editor-bar">
+    <div class="brand-tag">🎸 SHIN MIN-CHAN 7-FORMS</div>
+    <div class="editor-actions">
+      <button class="btn btn-edit" id="toggleEditBtn" onclick="toggleEditMode()">✏️ 편집 모드</button>
+      <button class="btn btn-export" onclick="exportUpdatedHTML()">📋 수정된 HTML 복사</button>
+      <button class="btn btn-reset" onclick="resetAllData()">🔄 초기화</button>
+    </div>
+  </div>
+  <div class="edit-notice">
+    ✏️ 편집 모드 ON! 아무 글자나 터치해서 수정하고, 사진 카드를 터치하면 갤러리 사진으로 바로 교체됩니다!
+  </div>
+
+  <input type="file" id="imageFileInput" accept="image/*" />
+
+  <div class="container">
+
+    <!-- 1. 메인 프로필 히어로 (가오민찬 대표) -->
+    <section class="section-card hero-banner">
+      <div class="section-header">
+        <span class="badge" style="background: rgba(255,92,168,0.2); color: var(--pink);">MAIN PROFILE · 01 가오민찬</span>
+        <span class="badge" style="background: rgba(250,204,21,0.2); color: var(--yellow);">만 18세 · 남자</span>
+      </div>
+
+      <div class="img-slot hero-photo-box" data-img-id="form-1" onclick="triggerImageUpload('form-1')">
+        <img src="1.jpg" alt="가오민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+        <svg class="fallback-svg" viewBox="0 0 600 320" preserveAspectRatio="xMidYMid slice">
+          <rect width="600" height="320" fill="#1b182c"/>
+          <circle cx="300" cy="125" r="52" fill="#fed7aa"/>
+          <path d="M252 115 Q300 65 348 115 Q335 80 300 78 Q265 80 252 115 Z" fill="#1e293b"/>
+          <ellipse cx="300" cy="144" rx="14" ry="8" fill="#fb7185"/>
+          <text x="300" y="235" text-anchor="middle" fill="#facc15" font-size="24" font-weight="900">01. 가오민찬 (1.jpg)</text>
+          <text x="300" y="268" text-anchor="middle" fill="#cbd5e1" font-size="14" font-weight="700">터치해서 첫 번째 사진(가오민찬) 넣기</text>
+        </svg>
+        <div class="img-upload-badge">📸 가오민찬 사진</div>
+      </div>
+
+      <div class="hero-name-row">
+        <h1 class="hero-name" data-editable="hero-name">신민찬</h1>
+        <span style="color: var(--cyan); font-weight: 800; font-size: 14px;" data-editable="hero-alias">@shmhon_1027 · RANI BAND</span>
+      </div>
+      <p class="hero-sub" data-editable="hero-quote">"라니밴드 기타 자리는 내 거다. 단, 구구단이랑 야채는 빼고."</p>
+
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-label">🎂 나이 / 성별</div>
+          <div class="stat-val" data-editable="stat-age">만 18세 / 남자</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">📏 신체 스펙</div>
+          <div class="stat-val" data-editable="stat-body">키 172cm · 몸무게 75kg</div>
+        </div>
+        <div class="stat-item full">
+          <div class="stat-label">🎓 학력 루트</div>
+          <div class="stat-val" data-editable="stat-school">판곡중학교 졸업 ➔ 청학고등학교 재학 중</div>
+        </div>
+        <div class="stat-item full">
+          <div class="stat-label">🏠 본거지 (거주지)</div>
+          <div class="stat-val" data-editable="stat-addr">경기도 남양주시 늘을 1로 197-5 5동 202호 (호평동)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 신민찬 7단 변신 멀티버스 갤러리 -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">🔥 신민찬 7단 변신 도감</h2>
+        <span class="badge" style="background: rgba(250,204,21,0.2); color: var(--yellow);">7 FORMS ARCHIVE</span>
+      </div>
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 14px;">
+        상황에 따라 자유자재로 얼굴을 갈아끼우는 호평동 카멜레온. 각 카드를 터치하면 사진을 바로 넣을 수 있습니다.
+      </p>
+
+      <div class="forms-grid">
+        <!-- 1. 가오민찬 -->
+        <div class="form-card featured">
+          <div class="img-slot form-img-wrap" data-img-id="form-1-card" onclick="triggerImageUpload('form-1-card')">
+            <img src="1.jpg" alt="가오민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 500 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="500" height="280" fill="#1f1a2e"/>
+              <text x="250" y="130" text-anchor="middle" font-size="60">😗💨</text>
+              <text x="250" y="185" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.1 가오민찬</text>
+              <text x="250" y="215" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 가오민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f1-name">01. 가오민찬</span>
+              <span class="form-rank" data-editable="f1-rank">가오 치사량 99%</span>
+            </div>
+            <p class="form-desc" data-editable="f1-desc">
+              입술에 온 힘을 다해 삐죽 내밀며 치명적인 척하는 기본 전투 태세. 본인은 꽤 멋있다고 착각하는 중이다.
+            </p>
+            <div class="form-meter-row">
+              <span>치명적임</span>
+              <div class="mini-bar"><div style="width: 95%; background: var(--pink);"></div></div>
+              <span>95%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 코털민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-2" onclick="triggerImageUpload('form-2')">
+            <img src="2.jpg" alt="코털민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#2b1419"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">👃🌿</text>
+              <text x="200" y="180" text-anchor="middle" fill="#ff8080" font-size="22" font-weight="900">No.2 코털민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 코털민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f2-name">02. 코털민찬</span>
+              <span class="form-rank" style="background: rgba(255,77,77,0.2); color: #ff8080;" data-editable="f2-rank">생태계 교란종</span>
+            </div>
+            <p class="form-desc" data-editable="f2-desc">
+              인중을 덮어버리는 압도적 길이의 코털 수염 폼. 마주치는 순간 시선 강탈과 동시에 정신 데미지를 입힌다.
+            </p>
+            <div class="form-meter-row">
+              <span>충격지수</span>
+              <div class="mini-bar"><div style="width: 100%; background: var(--red);"></div></div>
+              <span>MAX</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 낙서민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-3" onclick="triggerImageUpload('form-3')">
+            <img src="3.jpg" alt="낙서민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#172033"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">😴🖍️</text>
+              <text x="200" y="180" text-anchor="middle" fill="#38bdf8" font-size="22" font-weight="900">No.3 낙서민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 낙서민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f3-name">03. 낙서민찬</span>
+              <span class="form-rank" style="background: rgba(56,189,248,0.2); color: var(--cyan);" data-editable="f3-rank">방어력 0</span>
+            </div>
+            <p class="form-desc" data-editable="f3-desc">
+              누가 업어가도 모를 정도로 딥슬립에 빠진 무방비 상태. 얼굴이 도화지처럼 평온해서 낙서 욕구를 자극한다.
+            </p>
+            <div class="form-meter-row">
+              <span>숙면도</span>
+              <div class="mini-bar"><div style="width: 98%; background: var(--cyan);"></div></div>
+              <span>98%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 중2병민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-4" onclick="triggerImageUpload('form-4')">
+            <img src="4.jpg" alt="중2병민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#231638"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">😷🖤</text>
+              <text x="200" y="180" text-anchor="middle" fill="#c084fc" font-size="22" font-weight="900">No.4 중2병민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 중2병민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f4-name">04. 중2병민찬</span>
+              <span class="form-rank" style="background: rgba(168,85,247,0.22); color: #d8b4fe;" data-editable="f4-rank">친한친구 공개</span>
+            </div>
+            <p class="form-desc" data-editable="f4-desc">
+              고개를 45도 꺾고 마스크로 하관을 봉인한 인스타 스토리 폼. 왼손에 흑염룡이 꿈틀거리는 것 같은 눈빛이 포인트.
+            </p>
+            <div class="form-meter-row">
+              <span>흑염룡</span>
+              <div class="mini-bar"><div style="width: 92%; background: var(--purple);"></div></div>
+              <span>92%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. 차은우민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-5" onclick="triggerImageUpload('form-5')">
+            <img src="5.jpg" alt="차은우민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#1e2436"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">🎭✨</text>
+              <text x="200" y="180" text-anchor="middle" fill="#facc15" font-size="22" font-weight="900">No.5 차은우민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 차은우민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f5-name">05. 차은우민찬</span>
+              <span class="form-rank" data-editable="f5-rank">양심 실종</span>
+            </div>
+            <p class="form-desc" data-editable="f5-desc">
+              차은우의 본체 위에 신민찬의 눈코입만 네모낳게 오려 붙인 금단의 합성체. 볼수록 묘하게 빠져드는 마성의 비주얼.
+            </p>
+            <div class="form-meter-row">
+              <span>싱크로율</span>
+              <div class="mini-bar"><div style="width: 12%; background: var(--yellow);"></div></div>
+              <span>12%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. 훈남민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-6" onclick="triggerImageUpload('form-6')">
+            <img src="6.jpg" alt="훈남민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#142b24"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">📱✨</text>
+              <text x="200" y="180" text-anchor="middle" fill="#4ade80" font-size="22" font-weight="900">No.6 훈남민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 훈남민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f6-name">06. 훈남민찬</span>
+              <span class="form-rank" style="background: rgba(34,197,94,0.2); color: #4ade80;" data-editable="f6-rank">기적의 옆선</span>
+            </div>
+            <p class="form-desc" data-editable="f6-desc">
+              회색 후드티에 자연광, 그리고 스마트폰 집중 모드가 겹쳐 탄생한 기적의 1컷. 같은 사람이 맞나 의심되는 유일한 폼.
+            </p>
+            <div class="form-meter-row">
+              <span>사기캐 지수</span>
+              <div class="mini-bar"><div style="width: 89%; background: var(--green);"></div></div>
+              <span>89%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. 비버민찬 -->
+        <div class="form-card">
+          <div class="img-slot form-img-wrap" data-img-id="form-7" onclick="triggerImageUpload('form-7')">
+            <img src="7.jpg" alt="비버민찬" onerror="this.parentElement.classList.add('is-fallback')" />
+            <svg class="fallback-svg" viewBox="0 0 400 280" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="280" fill="#2e2114"/>
+              <text x="200" y="125" text-anchor="middle" font-size="60">🦫🦷</text>
+              <text x="200" y="180" text-anchor="middle" fill="#fb923c" font-size="22" font-weight="900">No.7 비버민찬</text>
+              <text x="200" y="210" text-anchor="middle" fill="#94a3b8" font-size="13">터치해서 비버민찬 사진 업로드</text>
+            </svg>
+            <div class="img-upload-badge">📸 사진 넣기</div>
+          </div>
+          <div class="form-body">
+            <div class="form-top">
+              <span class="form-name" data-editable="f7-name">07. 비버민찬</span>
+              <span class="form-rank" style="background: rgba(251,146,60,0.2); color: #fdba74;" data-editable="f7-rank">앞니 풀개방</span>
+            </div>
+            <p class="form-desc" data-editable="f7-desc">
+              버스 창가에서 앞니 두 개를 시원하게 드러내며 해맑게 웃는 초식동물 폼. 댐이라도 지을 기세의 순수한 미소.
+            </p>
+            <div class="form-meter-row">
+              <span>무해함</span>
+              <div class="mini-bar"><div style="width: 100%; background: #fb923c;"></div></div>
+              <span>100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 그의 가상 여친들 -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">💖 그의 가상 여친들</h2>
+        <span class="badge" style="background: rgba(255,92,168,0.2); color: var(--pink);">2D SOULMATES</span>
+      </div>
+
+      <div class="gf-grid">
+        <!-- 여친 1: 봇치 -->
+        <div class="gf-card">
+          <div class="img-slot gf-img-wrap is-fallback" data-img-id="gf-bocchi" onclick="triggerImageUpload('gf-bocchi')">
+            <img src="" alt="봇치" />
+            <svg class="fallback-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="bocchiBg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ff85b3"/>
+                  <stop offset="100%" stop-color="#3b1d36"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="300" fill="url(#bocchiBg)"/>
+              <path d="M125 270 L135 120 Q200 55 265 120 L275 270 Z" fill="#ff7eb9"/>
+              <circle cx="200" cy="145" r="46" fill="#ffe4e6"/>
+              <path d="M154 135 L172 110 L186 138 L200 108 L215 138 L230 112 L246 136 Q200 85 154 135 Z" fill="#ff65a3"/>
+              <rect x="235" y="102" width="13" height="13" rx="2" fill="#38bdf8"/>
+              <rect x="235" y="117" width="13" height="13" rx="2" fill="#facc15"/>
+              <ellipse cx="183" cy="148" rx="6" ry="8" fill="#0284c7"/>
+              <ellipse cx="217" cy="148" rx="6" ry="8" fill="#0284c7"/>
+              <path d="M193 166 Q200 160 207 166" stroke="#be185d" stroke-width="2.5" fill="none"/>
+              <path d="M140 280 C145 205 255 205 260 280 Z" fill="#ff5ca8"/>
+              <line x1="200" y1="208" x2="200" y2="280" stroke="#fff" stroke-width="3"/>
+              <text x="200" y="34" text-anchor="middle" fill="#fff" font-weight="900" font-size="16">BOCCHI THE ROCK!</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 짤 변경</div>
+          </div>
+          <div class="gf-info">
+            <div class="gf-title-row">
+              <span class="gf-name" data-editable="gf1-name">봇치 (고토 히토리)</span>
+              <span class="love-meter" data-editable="gf1-love">♥ 애정도 MAX</span>
+            </div>
+            <p class="gf-desc" data-editable="gf1-desc">
+              신민찬이 기타를 잡게 만든 장본인. 핑크 츄리닝과 방구석 기타 실력에 진심으로 반해버린 첫 번째 가상 여친.
+            </p>
+          </div>
+        </div>
+
+        <!-- 여친 2: 수나 (젠존제) -->
+        <div class="gf-card suna">
+          <div class="img-slot gf-img-wrap is-fallback" data-img-id="gf-suna" onclick="triggerImageUpload('gf-suna')">
+            <img src="" alt="수나" />
+            <svg class="fallback-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="sunaBg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#0284c7"/>
+                  <stop offset="50%" stop-color="#4f46e5"/>
+                  <stop offset="100%" stop-color="#1e1b4b"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="300" fill="url(#sunaBg)"/>
+              <circle cx="200" cy="145" r="78" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="8 6"/>
+              <path d="M145 125 Q105 165 118 245" stroke="#c4b5fd" stroke-width="24" stroke-linecap="round" fill="none"/>
+              <path d="M255 125 Q295 165 282 245" stroke="#c4b5fd" stroke-width="24" stroke-linecap="round" fill="none"/>
+              <circle cx="200" cy="145" r="45" fill="#fff1f2"/>
+              <path d="M155 135 Q200 85 245 135 Q225 115 200 132 Q175 115 155 135 Z" fill="#a78bfa"/>
+              <path d="M150 140 A52 52 0 0 1 250 140" stroke="#38bdf8" stroke-width="6" fill="none"/>
+              <rect x="142" y="130" width="12" height="24" rx="5" fill="#facc15"/>
+              <rect x="246" y="130" width="12" height="24" rx="5" fill="#facc15"/>
+              <circle cx="183" cy="148" r="6" fill="#6366f1"/>
+              <circle cx="217" cy="148" r="6" fill="#6366f1"/>
+              <path d="M192 164 Q200 172 208 164" stroke="#ec4899" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M145 280 C150 205 250 205 255 280 Z" fill="#e0e7ff"/>
+              <polygon points="200,208 188,225 212,225" fill="#38bdf8"/>
+              <text x="200" y="34" text-anchor="middle" fill="#7dd3fc" font-weight="900" font-size="16">ZENLESS ZONE ZERO · SUNA</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 짤 변경</div>
+          </div>
+          <div class="gf-info">
+            <div class="gf-title-row">
+              <span class="gf-name" data-editable="gf2-name">수나 (젠레스 존 제로)</span>
+              <span class="love-meter" data-editable="gf2-love">♥ 최애 등극</span>
+            </div>
+            <p class="gf-desc" data-editable="gf2-desc">
+              젠존제 아이돌 진영의 수나. 게임 켜자마자 신민찬의 심장을 저격해 버린 두 번째 공식 가상 여친.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 좋아하는 것 (LIKE) -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">😍 좋아하는 것 (LIKE)</h2>
+        <span class="badge" style="background: rgba(34,197,94,0.2); color: var(--green);">DOPAMINE</span>
+      </div>
+
+      <div class="visual-3grid">
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="like-pixiv" onclick="triggerImageUpload('like-pixiv')">
+            <img src="" alt="픽시브" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#0096fa"/>
+              <circle cx="150" cy="90" r="52" fill="#ffffff"/>
+              <text x="150" y="108" text-anchor="middle" fill="#0096fa" font-size="64" font-weight="900" font-family="sans-serif">P</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="like1-title">1. 픽시브 (Pixiv)</div>
+            <div class="v-card-desc" data-editable="like1-desc">매일 밤 일러스트 순례를 멈출 수 없는 신민찬의 성지</div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="like-girls" onclick="triggerImageUpload('like-girls')">
+            <img src="" alt="여자" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#be185d"/>
+              <text x="150" y="102" text-anchor="middle" font-size="68">💃💖</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="like2-title">2. 여자</div>
+            <div class="v-card-desc" data-editable="like2-desc">2D든 3D든 여자라면 일단 눈빛부터 달라지는 솔직한 남자</div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="like-game" onclick="triggerImageUpload('like-game')">
+            <img src="" alt="게임" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#4338ca"/>
+              <text x="150" y="102" text-anchor="middle" font-size="68">🎮🔥</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="like3-title">3. 게임</div>
+            <div class="v-card-desc" data-editable="like3-desc">젠존제 포함 각종 갓겜 섭렵 중. 공부 빼고 다 잘함</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 싫어하는 것 (HATE) -->
+    <section class="section-card" style="border-color: rgba(255,77,77,0.38);">
+      <div class="section-header">
+        <h2 class="section-title">🤬 극혐 리스트 (HATE)</h2>
+        <span class="badge" style="background: rgba(255,77,77,0.2); color: var(--red);">DANGER ZONE</span>
+      </div>
+
+      <div class="visual-3grid">
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="hate-friends" onclick="triggerImageUpload('hate-friends')">
+            <img src="" alt="천적들" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#450a0a"/>
+              <text x="150" y="95" text-anchor="middle" font-size="56">🚫👥🚫</text>
+              <text x="150" y="138" text-anchor="middle" fill="#fca5a5" font-size="15" font-weight="900">주재윤 · 김준령 · 이현승</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="hate1-title">요주의 인물 3인방</div>
+            <div class="v-card-desc" data-editable="hate1-desc">이름만 들어도 혈압 상승하는 공식 천적들</div>
+            <div class="hate-tags">
+              <span class="hate-pill" data-editable="hate-p1">주재윤</span>
+              <span class="hate-pill" data-editable="hate-p2">김준령</span>
+              <span class="hate-pill" data-editable="hate-p3">이현승</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="hate-math" onclick="triggerImageUpload('hate-math')">
+            <img src="" alt="구구단" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#7f1d1d"/>
+              <text x="150" y="88" text-anchor="middle" fill="#fef08a" font-size="38" font-weight="900">7 × 8 = ??</text>
+              <text x="150" y="132" text-anchor="middle" fill="#fecaca" font-size="16" font-weight="800">구구단 공포증</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="hate2-title">구구단</div>
+            <div class="v-card-desc" data-editable="hate2-desc">만 18세 고딩이지만 구구단 앞에서는 한없이 작아지는 남자</div>
+          </div>
+        </div>
+
+        <div class="v-card">
+          <div class="img-slot v-card-img is-fallback" data-img-id="hate-veggie" onclick="triggerImageUpload('hate-veggie')">
+            <img src="" alt="야채" />
+            <svg class="fallback-svg" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <rect width="300" height="180" fill="#14532d"/>
+              <text x="150" y="98" text-anchor="middle" font-size="66">🥦🥕❌</text>
+            </svg>
+            <div class="img-upload-badge">🖼️ 변경</div>
+          </div>
+          <div class="v-card-body">
+            <div class="v-card-title" data-editable="hate3-title">야채</div>
+            <div class="v-card-desc" data-editable="hate3-desc">초록색 풀떼기는 식량이 아니라 적으로 간주함 (75kg 유지 비결)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 최종 목표: 라니밴드 기타리스트 -->
+    <section class="section-card dream-box">
+      <div class="section-header">
+        <h2 class="section-title">🎸 인생 최종 목표</h2>
+        <span class="badge" style="background: rgba(168,85,247,0.25); color: #d8b4fe;">DREAM STAGE</span>
+      </div>
+
+      <div class="img-slot dream-img is-fallback" data-img-id="dream-band" onclick="triggerImageUpload('dream-band')">
+        <img src="" alt="라니밴드" />
+        <svg class="fallback-svg" viewBox="0 0 600 240" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="stageGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3b0764"/>
+              <stop offset="50%" stop-color="#831843"/>
+              <stop offset="100%" stop-color="#1e1b4b"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="240" fill="url(#stageGrad)"/>
+          <polygon points="120,0 40,240 220,240" fill="#facc15" opacity="0.12"/>
+          <polygon points="480,0 380,240 560,240" fill="#38bdf8" opacity="0.12"/>
+          <text x="300" y="95" text-anchor="middle" fill="#fff" font-size="34" font-weight="900">⚡ RANI BAND ⚡</text>
+          <text x="300" y="135" text-anchor="middle" fill="#facc15" font-size="18" font-weight="800">LEAD GUITARIST : SHIN MIN-CHAN</text>
+          <text x="300" y="185" text-anchor="middle" font-size="44">🎸🔥🤘</text>
+        </svg>
+        <div class="img-upload-badge">🖼️ 무대 사진 변경</div>
+      </div>
+
+      <h3 style="font-size: 19px; font-weight: 900; margin-bottom: 6px;" data-editable="goal-title">
+        "라니밴드에 들어가서 기타 멋지게 치기!"
+      </h3>
+      <p style="font-size: 13px; color: #cbd5e1;" data-editable="goal-desc">
+        봇치처럼 각성해서 무대 위에서 화려한 기타 솔로를 찢는 그날까지 연습 중! (일단 구구단부터 외우고 오자...)
+      </p>
+
+      <div class="progress-wrap">
+        <div class="progress-fill">28%</div>
+      </div>
+    </section>
+
+    <!-- 7. 미니게임: 신민찬 7단 변신 추격전! -->
+    <section class="section-card game-section">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--yellow);">🕹️ 미니게임: 신민찬 7단 변신 추격전!</h2>
+        <span class="badge" style="background: var(--yellow); color: #000;">ARCADE</span>
+      </div>
+      <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">
+        <strong>가오민찬·코털민찬·비버민찬·차은우민찬</strong>이 번갈아 돌진해 온다!!
+        민찬이를 피하면서 <strong style="color: var(--green);">🥦야채</strong>와 <strong style="color: var(--cyan);">✖️구구단</strong>을 먹어 민찬이를 기절시켜라!
+      </p>
+
+      <div class="game-hud">
+        <span>점수: <strong id="scoreDisplay" style="color: var(--yellow);">0</strong></span>
+        <span>최고: <strong id="bestDisplay" style="color: var(--pink);">0</strong></span>
+        <span id="statusText" style="color: var(--cyan); font-size: 12px;">도망 준비!</span>
+      </div>
+
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <canvas id="chaseGame" width="360" height="440"></canvas>
+        <div class="game-overlay" id="gameOverlay">
+          <div style="font-size: 46px; margin-bottom: 8px;">🏃💨🎸</div>
+          <h3 id="overlayTitle" style="font-family: 'Black Han Sans', sans-serif; font-size: 24px; color: var(--yellow);">
+            신민찬에게서 도망쳐라!
+          </h3>
+          <p id="overlayDesc" style="font-size: 13px; color: #cbd5e1; margin-top: 6px;">
+            좌우 버튼이나 화면 드래그로 이동!<br/>
+            🥦야채 / ✖️구구단 먹으면 민찬이 기절(+200점)!
+          </p>
+          <button class="game-start-btn" onclick="startGame()">게임 시작하기!</button>
+        </div>
+      </div>
+
+      <div class="touch-controls">
+        <button class="touch-btn" id="leftBtn">◀ 왼쪽</button>
+        <button class="touch-btn" id="rightBtn">오른쪽 ▶</button>
+      </div>
+    </section>
+
+    <!-- 8. 제작자 소개 (이현승 - 마지막 사진 적용 슬롯) -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">🎬 제작자 소개</h2>
+        <span class="badge" style="background: rgba(56,189,248,0.2); color: var(--cyan);">CREATOR · LAST PHOTO</span>
+      </div>
+
+      <div class="creator-card">
+        <div class="img-slot creator-img" data-img-id="creator-photo" onclick="triggerImageUpload('creator-photo')">
+          <img src="creator.jpg" alt="제작자 이현승" onerror="this.parentElement.classList.add('is-fallback')" />
+          <!-- 마지막 사진(마녀 모자 + 화이트 SG 일렉기타) 전용 벡터 일러스트 -->
+          <svg class="fallback-svg" viewBox="0 0 260 340" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="witchBg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3b2f4a"/>
+                <stop offset="100%" stop-color="#181828"/>
+              </linearGradient>
+            </defs>
+            <rect width="260" height="340" fill="url(#witchBg)"/>
+            <!-- 마녀 모자 -->
+            <ellipse cx="130" cy="105" rx="92" ry="20" fill="#524863"/>
+            <path d="M75 105 L118 22 L162 42 L175 105 Z" fill="#635775"/>
+            <!-- 보라색 단발 헤어 & 얼굴 -->
+            <circle cx="130" cy="135" r="34" fill="#ffe4e6"/>
+            <path d="M94 125 Q130 92 166 125 L168 165 L92 165 Z" fill="#7c7399"/>
+            <circle cx="118" cy="136" r="5" fill="#92400e"/>
+            <circle cx="142" cy="136" r="5" fill="#92400e"/>
+            <!-- 망토 -->
+            <path d="M78 265 L95 168 L165 168 L182 265 Z" fill="#4c4359"/>
+            <!-- 화이트 SG 일렉기타 -->
+            <path d="M95 255 L195 135" stroke="#d6d3d1" stroke-width="9" stroke-linecap="round"/>
+            <ellipse cx="112" cy="238" rx="32" ry="24" transform="rotate(-35 112 238)" fill="#f8fafc" stroke="#1e293b" stroke-width="3"/>
+            <ellipse cx="115" cy="235" rx="16" ry="12" transform="rotate(-35 115 235)" fill="#18181b"/>
+            <text x="130" y="305" text-anchor="middle" fill="#facc15" font-size="13" font-weight="900">터치해서 마지막 사진 넣기</text>
+            <text x="130" y="324" text-anchor="middle" fill="#cbd5e1" font-size="11">(creator.jpg)</text>
+          </svg>
+          <div class="img-upload-badge">📸 내 사진 넣기</div>
+        </div>
+
+        <div>
+          <span class="badge" style="background: rgba(255,77,77,0.2); color: #ff8585; margin-bottom: 8px; display: inline-block;">
+            신민찬 공식 싫어하는 사람 명단 1순위
+          </span>
+          <h3 style="font-family: 'Black Han Sans', sans-serif; font-size: 26px; margin-bottom: 8px;" data-editable="creator-name">
+            제작자: 이현승
+          </h3>
+          <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;" data-editable="creator-bio">
+            가오민찬부터 비버민찬까지 신민찬의 전설적인 7단 변신 기록을 영구 박제하기 위해 직접 이 도감을 구축한 총괄 프로듀서.
+            민찬이가 라니밴드 오디션 보는 날 앞에서 구구단 7단 외울 예정.
+          </p>
+          <div style="font-size: 12px; color: var(--cyan); font-weight: 800;" data-editable="creator-gear">
+            🎸 주무기: 화이트 SG 일렉기타 &amp; 마녀 모자 풀세트
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toastMsg">저장 완료!</div>
+
+  <script>
+    /* =========================================
+       1. 실시간 텍스트 및 이미지 편집 & 저장 기능
+       ========================================= */
+    let isEditing = false;
+    let currentTargetImgId = null;
+    const STORAGE_KEY = 'minchan_wiki_7forms_v2';
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2300);
+    }
+
+    function toggleEditMode() {
+      isEditing = !isEditing;
+      document.body.classList.toggle('editing', isEditing);
+      const btn = document.getElementById('toggleEditBtn');
+      btn.classList.toggle('active', isEditing);
+      btn.textContent = isEditing ? '✅ 편집 완료' : '✏️ 편집 모드';
+
+      document.querySelectorAll('[data-editable]').forEach(el => {
+        el.contentEditable = isEditing ? 'true' : 'false';
+      });
+
+      if (!isEditing) {
+        saveState();
+        showToast('수정한 글자가 저장되었습니다!');
+      } else {
+        showToast('글자를 눌러 수정하고, 사진을 눌러 교체하세요!');
+      }
+    }
+
+    function triggerImageUpload(imgId) {
+      currentTargetImgId = imgId;
+      document.getElementById('imageFileInput').click();
+    }
+
+    document.getElementById('imageFileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file || !currentTargetImgId) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          // 8장 이상 들어가도 브라우저 저장공간에 넉넉히 들어가도록 자동 리사이즈
+          const canvas = document.createElement('canvas');
+          const MAX_SIZE = 480;
+          let w = img.width;
+          let h = img.height;
+          if (w > h && w > MAX_SIZE) {
+            h *= MAX_SIZE / w;
+            w = MAX_SIZE;
+          } else if (h > MAX_SIZE) {
+            w *= MAX_SIZE / h;
+            h = MAX_SIZE;
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.74);
+
+          applyImageToSlot(currentTargetImgId, compressedDataUrl);
+          // 가오민찬 대표 사진 넣으면 상단 히어로와 1번 카드 둘 다 동기화!
+          if (currentTargetImgId === 'form-1') {
+            applyImageToSlot('form-1-card', compressedDataUrl);
+          } else if (currentTargetImgId === 'form-1-card') {
+            applyImageToSlot('form-1', compressedDataUrl);
+          }
+
+          saveState();
+          showToast('사진이 깔끔하게 장착되었습니다!');
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    });
+
+    function applyImageToSlot(imgId, dataUrl) {
+      const slot = document.querySelector(`.img-slot[data-img-id="${imgId}"]`);
+      if (!slot) return;
+      slot.classList.remove('is-fallback');
+      let imgTag = slot.querySelector('img');
+      if (!imgTag) {
+        imgTag = document.createElement('img');
+        slot.prepend(imgTag);
+      }
+      imgTag.src = dataUrl;
+    }
+
+    function saveState() {
+      const texts = {};
+      document.querySelectorAll('[data-editable]').forEach(el => {
+        texts[el.getAttribute('data-editable')] = el.innerHTML;
+      });
+      const images = {};
+      document.querySelectorAll('.img-slot').forEach(slot => {
+        const img = slot.querySelector('img');
+        if (img && img.src && img.src.startsWith('data:image')) {
+          images[slot.getAttribute('data-img-id')] = img.src;
+        }
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ texts, images }));
+      } catch (err) {
+        showToast('사진 용량이 너무 커서 일부 저장이 제한되었습니다.');
+      }
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data.texts) {
+          Object.entries(data.texts).forEach(([key, val]) => {
+            const el = document.querySelector(`[data-editable="${key}"]`);
+            if (el) el.innerHTML = val;
+          });
+        }
+        if (data.images) {
+          Object.entries(data.images).forEach(([id, src]) => {
+            applyImageToSlot(id, src);
+          });
+        }
+      } catch (e) {}
+    }
+
+    function resetAllData() {
+      if (!confirm('수정한 내용과 업로드한 사진을 전부 초기화할까요?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    function exportUpdatedHTML() {
+      if (isEditing) toggleEditMode();
+      const clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      const fullHtml = '<!DOCTYPE html>\n' + clone.outerHTML;
+      navigator.clipboard.writeText(fullHtml).then(() => {
+        showToast('사진이 포함된 전체 HTML 코드가 복사되었습니다!');
+      }).catch(() => {
+        alert('복사 권한이 차단되었습니다. 브라우저 설정을 확인해 주세요.');
+      });
+    }
+
+    loadState();
+
+    /* =========================================
+       2. 미니게임: 신민찬 7단 변신 추격전!
+       ========================================= */
+    const canvas = document.getElementById('chaseGame');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('scoreDisplay');
+    const bestEl = document.getElementById('bestDisplay');
+    const statusEl = document.getElementById('statusText');
+    const overlay = document.getElementById('gameOverlay');
+
+    let bestScore = Number(localStorage.getItem('minchan_game_best_v2') || 0);
+    bestEl.textContent = bestScore;
+
+    let gameRunning = false;
+    let score = 0;
+    let stunTimer = 0;
+    let frameCount = 0;
+    let entities = [];
+    let moveLeft = false;
+    let moveRight = false;
+
+    const player = { x: 160, y: 365, w: 40, h: 40, speed: 6.2 };
+
+    const minchanForms = [
+      { emoji: '😗', label: '가오민찬' },
+      { emoji: '👃', label: '코털민찬' },
+      { emoji: '🦫', label: '비버민찬' },
+      { emoji: '🎭', label: '차은우민찬' },
+      { emoji: '😷', label: '중2병민찬' }
+    ];
+
+    function startGame() {
+      gameRunning = true;
+      score = 0;
+      stunTimer = 0;
+      frameCount = 0;
+      entities = [];
+      player.x = canvas.width / 2 - player.w / 2;
+      scoreEl.textContent = '0';
+      statusEl.textContent = '도망치는 중!!';
+      statusEl.style.color = '#38bdf8';
+      overlay.classList.add('hidden');
+      requestAnimationFrame(gameLoop);
+    }
+
+    function spawnEntity() {
+      const rand = Math.random();
+      let type = 'minchan';
+      let emoji = '😗';
+      let label = '가오민찬';
+      let speed = 3.7 + Math.min(score / 750, 4.4);
+
+      if (rand < 0.58) {
+        const picked = minchanForms[Math.floor(Math.random() * minchanForms.length)];
+        emoji = picked.emoji;
+        label = picked.label;
+      } else if (rand < 0.78) {
+        type = 'veggie';
+        emoji = '🥦';
+        label = '야채';
+        speed = 3.3;
+      } else if (rand < 0.92) {
+        type = 'math';
+        emoji = '✖️';
+        label = '구구단';
+        speed = 3.5;
+      } else {
+        type = 'goods';
+        emoji = '🎸';
+        label = '봇치픽';
+        speed = 4.1;
+      }
+
+      entities.push({
+        type,
+        emoji,
+        label,
+        x: Math.random() * (canvas.width - 44),
+        y: -45,
+        size: 38,
+        speed
+      });
+    }
+
+    function gameLoop() {
+      if (!gameRunning) return;
+      frameCount++;
+
+      ctx.fillStyle = '#080a12';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([18, 18]);
+      ctx.lineDashOffset = -(frameCount * 5) % 36;
+      ctx.beginPath();
+      ctx.moveTo(canvas.width / 3, 0);
+      ctx.lineTo(canvas.width / 3, canvas.height);
+      ctx.moveTo((canvas.width / 3) * 2, 0);
+      ctx.lineTo((canvas.width / 3) * 2, canvas.height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      if (moveLeft) player.x -= player.speed;
+      if (moveRight) player.x += player.speed;
+      player.x = Math.max(6, Math.min(canvas.width - player.w - 6, player.x));
+
+      ctx.font = '34px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('🧙', player.x + player.w / 2, player.y + 30);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText('이현승', player.x + player.w / 2, player.y + 44);
+
+      if (stunTimer > 0) {
+        stunTimer--;
+        if (stunTimer === 0) {
+          statusEl.textContent = '민찬이 부활!!';
+          statusEl.style.color = '#ff4d4d';
+        }
+      }
+
+      const spawnInterval = Math.max(20, 44 - Math.floor(score / 300));
+      if (frameCount % spawnInterval === 0) {
+        spawnEntity();
+      }
+
+      for (let i = entities.length - 1; i >= 0; i--) {
+        const ent = entities[i];
+        const actualSpeed = (ent.type === 'minchan' && stunTimer > 0) ? ent.speed * 0.35 : ent.speed;
+        ent.y += actualSpeed;
+
+        ctx.font = '34px sans-serif';
+        ctx.fillText(ent.type === 'minchan' && stunTimer > 0 ? '😴' : ent.emoji, ent.x + 19, ent.y + 30);
+
+        ctx.fillStyle = ent.type === 'minchan' ? '#ff8585' : '#facc15';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.fillText(ent.type === 'minchan' && stunTimer > 0 ? '낙서민찬(기절)' : ent.label, ent.x + 19, ent.y + 43);
+
+        const hit =
+          player.x < ent.x + ent.size - 8 &&
+          player.x + player.w - 8 > ent.x &&
+          player.y < ent.y + ent.size - 8 &&
+          player.y + player.h - 8 > ent.y;
+
+        if (hit) {
+          if (ent.type === 'minchan') {
+            if (stunTimer > 0) {
+              score += 150;
+              entities.splice(i, 1);
+              continue;
+            } else {
+              endGame(ent.label);
+              return;
+            }
+          } else {
+            score += ent.type === 'goods' ? 300 : 200;
+            stunTimer = 115;
+            statusEl.textContent = `💥 ${ent.label} 투척! 민찬 기절!`;
+            statusEl.style.color = '#22c55e';
+            entities.splice(i, 1);
+            continue;
+          }
+        }
+
+        if (ent.y > canvas.height + 50) {
+          score += 10;
+          entities.splice(i, 1);
+        }
+      }
+
+      scoreEl.textContent = score;
+      requestAnimationFrame(gameLoop);
+    }
+
+    function endGame(killerForm) {
+      gameRunning = false;
+      if (score > bestScore) {
+        bestScore = score;
+        localStorage.setItem('minchan_game_best_v2', bestScore);
+        bestEl.textContent = bestScore;
+      }
+      statusEl.textContent = '잡혔다!!';
+      statusEl.style.color = '#ff4d4d';
+
+      document.getElementById('overlayTitle').textContent = `💥 [${killerForm}]에게 잡혔다!!`;
+      document.getElementById('overlayDesc').innerHTML =
+        `최종 점수: <strong style="color:#facc15; font-size:18px;">${score}점</strong><br/>` +
+        (score >= 1500 ? '호평동 전설의 도주왕 인정!' : '야채랑 구구단을 더 적극적으로 던져라!');
+      overlay.classList.remove('hidden');
+    }
+
+    const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+
+    leftBtn.addEventListener('touchstart', e => { e.preventDefault(); moveLeft = true; });
+    leftBtn.addEventListener('touchend', () => { moveLeft = false; });
+    leftBtn.addEventListener('mousedown', () => { moveLeft = true; });
+    leftBtn.addEventListener('mouseup', () => { moveLeft = false; });
+
+    rightBtn.addEventListener('touchstart', e => { e.preventDefault(); moveRight = true; });
+    rightBtn.addEventListener('touchend', () => { moveRight = false; });
+    rightBtn.addEventListener('mousedown', () => { moveRight = true; });
+    rightBtn.addEventListener('mouseup', () => { moveRight = false; });
+
+    canvas.addEventListener('touchmove', e => {
+      if (!gameRunning) return;
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const touchX = e.touches[0].clientX - rect.left;
+      const scaleX = canvas.width / rect.width;
+      player.x = touchX * scaleX - player.w / 2;
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft' || e.key === 'a') moveLeft = true;
+      if (e.key === 'ArrowRight' || e.key === 'd') moveRight = true;
+    });
+    window.addEventListener('keyup', e => {
+      if (e.key === 'ArrowLeft' || e.key === 'a') moveLeft = false;
+      if (e.key === 'ArrowRight' || e.key === 'd') moveRight = false;
+    });
+  </script>
 </body>
 </html>
